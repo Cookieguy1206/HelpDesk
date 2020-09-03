@@ -39,17 +39,17 @@ public class ConsultasProblema {
         }
     }
 
-    public void AgarrarId(ModeloProblema Modelo, AñadirProblema Vista) throws SQLException {
-        try {
-            int idPrioridad = Vista.JCPrioridad.getSelectedIndex();
-
-            ps = conexion.prepareStatement("SELECT Prioridad FROM Prioridad WHERE idPrioridad = " + idPrioridad);
-            rs = ps.executeQuery();
-
-            System.out.println(ps);
-
-        } catch (SQLException ex) {
-            System.out.println("Error" + ex);
-        }
+    /*    public void AgarrarId(ModeloProblema Modelo, AñadirProblema Vista) throws SQLException {
+    try {
+    int idPrioridad = Vista.JCPrioridad.getSelectedIndex();
+    
+    ps = conexion.prepareStatement("SELECT Prioridad FROM Prioridad WHERE idPrioridad = " + idPrioridad);
+    rs = ps.executeQuery();
+    
+    System.out.println(ps);
+    
+    } catch (SQLException ex) {
+    System.out.println("Error" + ex);
     }
+    }*/
 }
