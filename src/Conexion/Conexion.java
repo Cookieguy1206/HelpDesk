@@ -21,7 +21,6 @@ public class Conexion {
         try {
             Class.forName(DRIVER);
             conexion = (Connection) DriverManager.getConnection(URL, USER, PASSWORD);
-            System.out.println("Conexion exitosa");
         } catch (ClassNotFoundException ex) {
             System.out.println("Error" + ex);
         }

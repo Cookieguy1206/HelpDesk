@@ -2,14 +2,14 @@ CREATE DATABASE HelpDesk;
 
 USE HelpDesk;
 
-INSERT INTO Problema (idProblema, NombreProb, DetalleProb, FechaCreacion, idPrioridad) 
-VALUES (1, "Impresora no funciona", "Mi impresora no imprime", CURRENT_TIMESTAMP(), 2); 
+INSERT INTO Problema (idProblema, NombreProb, DetalleProb, FechaCreacion, RefIdPrioridad, RefAreaProb, RefTipoProb) 
+VALUES (4, "Impresora no funciona", "Mi impresora no imprime", CURRENT_TIMESTAMP(), 2, 5, 5);
 
 INSERT INTO Prioridad VALUES (3, "Baja");
 
-INSERT INTO TipoProb VALUES (NULL, "ERP");
+INSERT INTO TipoProb VALUES (NULL, "Impresora");
 
-INSERT INTO AreaProb VALUES (NULL, "Insumos");
+INSERT INTO AreaProb VALUES (NULL, "RRHH");
 
 DELETE FROM `helpdesk`.`Problema` WHERE (`idProblema` = '3');
 
@@ -27,7 +27,6 @@ SELECT * FROM TipoProb;
 
 SELECT * FROM TablaProblema;
 
-CREATE VIEW TablaProblema AS
 SELECT P.NombreProb, P.DetalleProb, P.FechaCreacion, TP.TipoProb, PR.Prioridad, AP.AreaProb FROM Problema AS P
 INNER JOIN TipoProb AS TP ON P.RefTipoProb = TP.idTipoProb
 INNER JOIN Prioridad AS PR ON P.RefIdPrioridad = PR.idPrioridad
