@@ -19,12 +19,16 @@ public class ConsultasProblema {
         this.conexion = con.getConnection();
     }
 
-    public boolean Insertar(ModeloProblema Modelo) {
+    public boolean Insertar(ModeloProblema Modelo, AñadirProblema VistaProblema) {
         try {
             int idProblema = con.AutoIncrement();
+            int idPrioridad = VistaProblema.JCPrioridad.getSelectedIndex();
+            int idAreaProb = VistaProblema.JCArea.getSelectedIndex();
+            int idTipoProb = VistaProblema.JCTipoSolicitud.getSelectedIndex();
 
-            ps = conexion.prepareStatement("INSERT INTO problema(idProblema, NombreProb, DetalleProb, FechaCreacion) "
-                    + "VALUES(" + idProblema + ",?,?,CURRENT_TIMESTAMP)");
+            ps = conexion.prepareStatement("INSERT INTO problema(idProblema, NombreProb, DetalleProb, FechaCreacion, "
+                    + "RefIdPrioridad, RefAreaProb, RefTipoProb) "
+                    + "VALUES(" + idProblema + ",?,?,CURRENT_TIMESTAMP," + idPrioridad + "," +idAreaProb + "," +idTipoProb + ")");
             ps.setString(1, Modelo.getNombreProb());
             ps.setString(2, Modelo.getDetalleProb());
 

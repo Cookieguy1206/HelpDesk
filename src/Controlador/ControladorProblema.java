@@ -43,7 +43,7 @@ public class ControladorProblema implements ActionListener {
             Modelo.setNombreProb(VistaProblema.TxtTituloSolicitud.getText());
             Modelo.setDetalleProb(VistaProblema.TxtDetalleSolicitud.getText());
 
-            if (Problema.Insertar(Modelo)) {
+            if (Problema.Insertar(Modelo, VistaProblema)) {
                 JOptionPane.showMessageDialog(null, "Registro INSERTADO CORRECTAMENTE");
                 Limpiar();
             } else {

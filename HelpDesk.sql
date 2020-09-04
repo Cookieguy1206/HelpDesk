@@ -7,7 +7,7 @@ VALUES (1, "Impresora no funciona", "Mi impresora no imprime", CURRENT_TIMESTAMP
 
 INSERT INTO Prioridad VALUES (3, "Baja");
 
-INSERT INTO TipoProb VALUES (NULL, "Internet");
+INSERT INTO TipoProb VALUES (NULL, "ERP");
 
 INSERT INTO AreaProb VALUES (NULL, "Insumos");
 
@@ -27,10 +27,13 @@ SELECT * FROM TipoProb;
 
 SELECT * FROM UnionAP;
 
+SELECT * FROM TablaProblema;
+
+CREATE VIEW TablaProblema AS
 SELECT P.NombreProb, P.DetalleProb, P.FechaCreacion, TP.TipoProb, PR.Prioridad, AP.AreaProb FROM Problema AS P
-INNER JOIN TipoProb AS TP ON P.idProblema = TP.idTipoProb
-INNER JOIN Prioridad AS PR ON P.idProblema = PR.idPrioridad
-INNER JOIN AreaProb AS AP ON P.idProblema = AP.idAreaProb;
+INNER JOIN TipoProb AS TP ON P.RefTipoProb = TP.idTipoProb
+INNER JOIN Prioridad AS PR ON P.RefIdPrioridad = PR.idPrioridad
+INNER JOIN AreaProb AS AP ON P.RefAreaProb = AP.idAreaProb;
 
 SET FOREIGN_KEY_CHECKS=0
 
