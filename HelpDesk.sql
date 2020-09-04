@@ -25,8 +25,6 @@ SELECT * FROM Prioridad;
 
 SELECT * FROM TipoProb;
 
-SELECT * FROM UnionAP;
-
 SELECT * FROM TablaProblema;
 
 CREATE VIEW TablaProblema AS

@@ -19,6 +19,7 @@ public class ConsultasProblema {
         this.conexion = con.getConnection();
     }
 
+    //Funcion para insertar el porblema en la BD
     public boolean Insertar(ModeloProblema Modelo, AñadirProblema VistaProblema) {
         try {
             int idProblema = con.AutoIncrement();
