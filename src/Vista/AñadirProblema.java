@@ -95,6 +95,7 @@ public class AñadirProblema extends javax.swing.JFrame {
         TxtFecha = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         Index = new javax.swing.JLabel();
+        BtnVerProb = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -121,6 +122,8 @@ public class AñadirProblema extends javax.swing.JFrame {
         BtnCancelar.setText("Cancelar");
 
         jLabel4.setText("Index");
+
+        BtnVerProb.setText("Ver Problemas");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -150,7 +153,11 @@ public class AñadirProblema extends javax.swing.JFrame {
                             .addComponent(JCArea, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(BtnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(BtnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(41, 41, 41)
+                                .addComponent(BtnVerProb)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(BtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(49, 49, 49)
@@ -180,7 +187,8 @@ public class AñadirProblema extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(JCArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
-                    .addComponent(BtnEnviar))
+                    .addComponent(BtnEnviar)
+                    .addComponent(BtnVerProb))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Index, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -215,6 +223,7 @@ public class AñadirProblema extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton BtnCancelar;
     public javax.swing.JButton BtnEnviar;
+    public javax.swing.JButton BtnVerProb;
     private javax.swing.JLabel Index;
     public javax.swing.JComboBox<String> JCArea;
     public javax.swing.JComboBox<String> JCPrioridad;

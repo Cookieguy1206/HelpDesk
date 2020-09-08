@@ -1,49 +1,47 @@
 package Controlador;
 
-import Conexion.Conexion;
 import Modelo.ConsultasProblema;
 import Modelo.ModeloProblema;
 import Vista.AñadirProblema;
+import Vista.VerProblema;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class ControladorProblema implements ActionListener {
 
-    private final AñadirProblema VistaProblema;
+    private final AñadirProblema AñadirProblema;
+    private final VerProblema VistaProblema;
     private final ModeloProblema Modelo;
     private final ConsultasProblema Problema;
 
-    public ControladorProblema(AñadirProblema VistaProblema, ModeloProblema Modelo, ConsultasProblema Problema) {
+    public ControladorProblema(AñadirProblema AñadirProblema, VerProblema VistaProblema, ModeloProblema Modelo, ConsultasProblema Problema) {
         this.VistaProblema = VistaProblema;
+        this.AñadirProblema = AñadirProblema;
         this.Modelo = Modelo;
         this.Problema = Problema;
-        VistaProblema.BtnEnviar.addActionListener(this);
-        VistaProblema.BtnCancelar.addActionListener(this);
+        AñadirProblema.BtnEnviar.addActionListener(this);
+        AñadirProblema.BtnCancelar.addActionListener(this);
+        AñadirProblema.BtnVerProb.addActionListener(this);
     }
 
     public void Iniciar() throws SQLException {
-        Conexion con = new Conexion();
-        Connection conexion = con.getConnection();
-        VistaProblema.setTitle("Añadir Problema");
-        VistaProblema.setLocationRelativeTo(null);
-        VistaProblema.setVisible(true);
-        VistaProblema.TxtID.setVisible(false);
-        VistaProblema.TxtFecha.setVisible(false);
+        AñadirProblema.setTitle("Añadir Problema");
+        AñadirProblema.setLocationRelativeTo(null);
+        AñadirProblema.setVisible(true);
+        AñadirProblema.TxtID.setVisible(false);
+        AñadirProblema.TxtFecha.setVisible(false);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == VistaProblema.BtnEnviar) {
-            Modelo.setNombreProb(VistaProblema.TxtTituloSolicitud.getText());
-            Modelo.setDetalleProb(VistaProblema.TxtDetalleSolicitud.getText());
+        if (e.getSource() == AñadirProblema.BtnEnviar) {
+            Modelo.setNombreProb(AñadirProblema.TxtTituloSolicitud.getText());
+            Modelo.setDetalleProb(AñadirProblema.TxtDetalleSolicitud.getText());
 
-            if (Problema.Insertar(Modelo, VistaProblema)) {
+            if (Problema.Insertar(Modelo, AñadirProblema)) {
                 JOptionPane.showMessageDialog(null, "Registro INSERTADO CORRECTAMENTE");
                 Limpiar();
             } else {
@@ -51,13 +49,20 @@ public class ControladorProblema implements ActionListener {
                 Limpiar();
             }
         }
+
+        if (e.getSource() == AñadirProblema.BtnVerProb) {
+            VerProblema VerProb = new VerProblema();
+            VerProb.setTitle("Problemas");
+            VerProb.setVisible(true);
+            VerProb.setLocationRelativeTo(null);
+        }
     }
-    
-    public void Limpiar(){
-        VistaProblema.TxtTituloSolicitud.setText(null);
-        VistaProblema.TxtDetalleSolicitud.setText(null);
-        VistaProblema.JCTipoSolicitud.setSelectedIndex(0);
-        VistaProblema.JCArea.setSelectedIndex(0);
-        VistaProblema.JCPrioridad.setSelectedIndex(0);
+
+    public void Limpiar() {
+        AñadirProblema.TxtTituloSolicitud.setText(null);
+        AñadirProblema.TxtDetalleSolicitud.setText(null);
+        AñadirProblema.JCTipoSolicitud.setSelectedIndex(0);
+        AñadirProblema.JCArea.setSelectedIndex(0);
+        AñadirProblema.JCPrioridad.setSelectedIndex(0);
     }
 }

@@ -7,9 +7,9 @@ VALUES (4, "Impresora no funciona", "Mi impresora no imprime", CURRENT_TIMESTAMP
 
 INSERT INTO Prioridad VALUES (3, "Baja");
 
-INSERT INTO TipoProb VALUES (NULL, "Impresora");
+INSERT INTO TipoProb VALUES (7, "Impresora");
 
-INSERT INTO AreaProb VALUES (NULL, "RRHH");
+INSERT INTO AreaProb VALUES (6, "RRHH");
 
 DELETE FROM `helpdesk`.`Problema` WHERE (`idProblema` = '3');
 

@@ -50,7 +50,12 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="BtnEnviar" min="-2" pref="106" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="BtnEnviar" min="-2" pref="106" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                              <Component id="BtnVerProb" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
                           <Group type="102" attributes="0">
                               <Component id="BtnCancelar" min="-2" pref="106" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
@@ -90,6 +95,7 @@
                   <Component id="JCArea" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="BtnEnviar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="BtnVerProb" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -219,6 +225,14 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="Index">
+    </Component>
+    <Component class="javax.swing.JButton" name="BtnVerProb">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Ver Problemas"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>
