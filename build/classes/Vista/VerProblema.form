@@ -42,9 +42,9 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="TxtBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel1" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                  <Component id="JCBuscar" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                  <Component id="JCBuscar" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="89" max="32767" attributes="0"/>
+              <EmptySpace pref="80" max="32767" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="347" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -123,8 +123,8 @@
             <StringItem index="1" value="Tiket"/>
             <StringItem index="2" value="Nombre"/>
             <StringItem index="3" value="Detalle"/>
-            <StringItem index="4" value="Area"/>
-            <StringItem index="5" value="Tipo"/>
+            <StringItem index="4" value="Tipo Problmea"/>
+            <StringItem index="5" value="Area"/>
           </StringArray>
         </Property>
       </Properties>

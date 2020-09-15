@@ -3,6 +3,7 @@ package Vista;
 import Conexion.Conexion;
 import Modelo.ConsultasProblema;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -17,6 +18,7 @@ public class VerProblema extends javax.swing.JFrame {
     }
 
     ResultSet rs;
+    PreparedStatement ps;
     Conexion con = new Conexion();
 
     //Al escribir en el JTextField se buscará lo deseado
@@ -26,16 +28,32 @@ public class VerProblema extends javax.swing.JFrame {
 
         DefaultTableModel ModeloTabla = new DefaultTableModel(null, Columnas);
 
-        String SQL = "SELECT * FROM TablaProblema WHERE idProblema LIKE '%" + Buscar + "%' "
-                + "OR  NombreProb LIKE '%" + Buscar + "%' "
-                + "OR  DetalleProb LIKE '%" + Buscar + "%' "
-                + "OR  TipoProb LIKE '%" + Buscar + "%' "
-                + "OR  AreaProb LIKE '%" + Buscar + "%' ";
-
+        switch (JCBuscar.getSelectedIndex()) {
+            case 1:
+                Connection conexion = con.getConnection();
+                ps = conexion.prepareStatement("SELECT * FROM TablaProblema WHERE idProblema LIKE '%" + Buscar + "%' ");
+                break;
+            case 2:
+                Connection conexion2 = con.getConnection();
+                ps = conexion2.prepareStatement("SELECT * FROM TablaProblema WHERE NombreProb LIKE '%" + Buscar + "%' ");
+                break;
+            case 3:
+                Connection conexion3 = con.getConnection();
+                ps = conexion3.prepareStatement("SELECT * FROM TablaProblema WHERE DetalleProb LIKE '%" + Buscar + "%' ");
+                break;
+            case 4:
+                Connection conexion4 = con.getConnection();
+                ps = conexion4.prepareStatement("SELECT * FROM TablaProblema WHERE TipoProb LIKE '%" + Buscar + "%' ");
+                break;
+            case 5:
+                Connection conexion5 = con.getConnection();
+                ps = conexion5.prepareStatement("SELECT * FROM TablaProblema WHERE AreaProb LIKE '%" + Buscar + "%' ");
+                break;
+        }
+        
         try {
-            Connection conexion  = con.getConnection();
-            Statement st = conexion.createStatement();
-            rs = st.executeQuery(SQL);
+
+            rs = ps.executeQuery();
 
             while (rs.next()) {
                 Registros[0] = rs.getString("idProblema");
@@ -89,7 +107,7 @@ public class VerProblema extends javax.swing.JFrame {
 
         jLabel1.setText("Buscar");
 
-        JCBuscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Seleccione>", "Tiket", "Nombre", "Detalle", "Area", "Tipo" }));
+        JCBuscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Seleccione>", "Tiket", "Nombre", "Detalle", "Tipo Problmea", "Area" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -112,8 +130,8 @@ public class VerProblema extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TxtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(JCBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
+                    .addComponent(JCBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 

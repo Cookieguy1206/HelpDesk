@@ -32,7 +32,6 @@ public class ControladorProblema implements ActionListener {
         AñadirProblema.setVisible(true);
         AñadirProblema.TxtID.setVisible(false);
         AñadirProblema.TxtFecha.setVisible(false);
-        VistaProblema.JCBuscar.setVisible(false);
         VistaProblema.setTitle("Problemas");
         VistaProblema.setLocationRelativeTo(null);
         VistaProblema.setVisible(false);
