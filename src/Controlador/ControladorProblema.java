@@ -32,6 +32,11 @@ public class ControladorProblema implements ActionListener {
         AñadirProblema.setVisible(true);
         AñadirProblema.TxtID.setVisible(false);
         AñadirProblema.TxtFecha.setVisible(false);
+        VistaProblema.JCBuscar.setVisible(false);
+        VistaProblema.setTitle("Problemas");
+        VistaProblema.setLocationRelativeTo(null);
+        VistaProblema.setVisible(false);
+        Problema.Mostrar(VistaProblema.JTablaProblema);
     }
 
     @Override
@@ -51,10 +56,11 @@ public class ControladorProblema implements ActionListener {
         }
 
         if (e.getSource() == AñadirProblema.BtnVerProb) {
-            VerProblema VerProb = new VerProblema();
-            VerProb.setTitle("Problemas");
-            VerProb.setVisible(true);
-            VerProb.setLocationRelativeTo(null);
+            VistaProblema.setTitle("Problemas");
+            VistaProblema.setVisible(true);
+            VistaProblema.setLocationRelativeTo(null);
+            AñadirProblema.setVisible(false);
+            Problema.Mostrar(VistaProblema.JTablaProblema);
         }
     }
 

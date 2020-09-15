@@ -27,7 +27,7 @@ SELECT * FROM TipoProb;
 
 SELECT * FROM TablaProblema;
 
-SELECT P.NombreProb, P.DetalleProb, P.FechaCreacion, TP.TipoProb, PR.Prioridad, AP.AreaProb FROM Problema AS P
+SELECT P.idProblema, P.NombreProb, P.DetalleProb, P.FechaCreacion, TP.TipoProb, PR.Prioridad, AP.AreaProb FROM Problema AS P
 INNER JOIN TipoProb AS TP ON P.RefTipoProb = TP.idTipoProb
 INNER JOIN Prioridad AS PR ON P.RefIdPrioridad = PR.idPrioridad
 INNER JOIN AreaProb AS AP ON P.RefAreaProb = AP.idAreaProb;

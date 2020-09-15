@@ -39,7 +39,7 @@ public class AñadirProblema extends javax.swing.JFrame {
             System.out.println("Error" + ex);
         }
     }
-    
+
     //Mostrar Area de la BD en JComboBox
     public void CargarArea() throws SQLException {
         try {
@@ -56,7 +56,7 @@ public class AñadirProblema extends javax.swing.JFrame {
             System.out.println("Error" + ex);
         }
     }
-    
+
     //Mostrar Prioridad de la BD en JComboBox
     public void CargarPrioridad() throws SQLException {
         try {
@@ -197,20 +197,18 @@ public class AñadirProblema extends javax.swing.JFrame {
                         .addComponent(JCPrioridad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(BtnCancelar)
                         .addComponent(jLabel4)))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void JCPrioridadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JCPrioridadActionPerformed
-       int index = JCPrioridad.getSelectedIndex();
-       
-       this.Index.setText(String.valueOf(index));
+        int index = JCPrioridad.getSelectedIndex();
+        this.Index.setText(String.valueOf(index));
     }//GEN-LAST:event_JCPrioridadActionPerformed
 
-    public static void main(String args[]) {
-
+    public static void main(String args[]) throws SQLException {
         java.awt.EventQueue.invokeLater(() -> {
             try {
                 new AñadirProblema().setVisible(true);
