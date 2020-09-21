@@ -4,13 +4,14 @@ import Controlador.ControladorProblema;
 import Modelo.ConsultasProblema;
 import Modelo.ModeloProblema;
 import Vista.AñadirProblema;
+import Vista.Soluciones;
 import Vista.VerProblema;
 import java.sql.SQLException;
 
 public class HelpDesk {
 
     public static void main(String[] args) throws SQLException {
-        //Diseño para que se vea mas bonita la vista
+        //Diseño para que se vea más bonita la vista
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -24,10 +25,11 @@ public class HelpDesk {
         
         AñadirProblema AñadirProblema = new AñadirProblema();
         VerProblema VistaProblema = new VerProblema();
+        Soluciones Soluciones = new Soluciones();
         ModeloProblema Modelo = new ModeloProblema();
         ConsultasProblema Problema = new ConsultasProblema();
 
-        ControladorProblema ControladroProblema = new ControladorProblema(AñadirProblema, VistaProblema, Modelo, Problema);
+        ControladorProblema ControladroProblema = new ControladorProblema(AñadirProblema, VistaProblema, Soluciones, Modelo, Problema);
         ControladroProblema.Iniciar();
     }
 

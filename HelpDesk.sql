@@ -3,19 +3,21 @@ CREATE DATABASE HelpDesk;
 USE HelpDesk;
 
 INSERT INTO Problema (idProblema, NombreProb, DetalleProb, FechaCreacion, RefIdPrioridad, RefAreaProb, RefTipoProb) 
-VALUES (4, "Impresora no funciona", "Mi impresora no imprime", CURRENT_TIMESTAMP(), 2, 5, 5);
+VALUES (17, "Impresora no funciona", "Mi impresora no imprime", CURRENT_TIMESTAMP(), 2, 5, 5);
 
 INSERT INTO Prioridad VALUES (3, "Baja");
 
 INSERT INTO TipoProb VALUES (7, "Impresora");
 
-INSERT INTO AreaProb VALUES (6, "RRHH");
+INSERT INTO AreaProb VALUES (7, "Calidad");
 
 DELETE FROM `helpdesk`.`Problema` WHERE (`idProblema` = '3');
 
 ALTER TABLE `helpdesk`.`problema` CHANGE COLUMN `FechaCreacion` `FechaCreacion` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP;
 
 UPDATE `helpdesk`.`Prioridad` SET `idPrioridad` = '2', `Prioridad` = 'Media' WHERE (`idPrioridad` = '3');
+
+DROP INDEX idTipoProb1_FK_idx ON Problema;
 
 SELECT * FROM Problema;
 

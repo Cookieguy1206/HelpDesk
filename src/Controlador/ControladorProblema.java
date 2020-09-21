@@ -3,6 +3,7 @@ package Controlador;
 import Modelo.ConsultasProblema;
 import Modelo.ModeloProblema;
 import Vista.AñadirProblema;
+import Vista.Soluciones;
 import Vista.VerProblema;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,17 +14,22 @@ public class ControladorProblema implements ActionListener {
 
     private final AñadirProblema AñadirProblema;
     private final VerProblema VistaProblema;
+    private final Soluciones Soluciones;
     private final ModeloProblema Modelo;
     private final ConsultasProblema Problema;
 
-    public ControladorProblema(AñadirProblema AñadirProblema, VerProblema VistaProblema, ModeloProblema Modelo, ConsultasProblema Problema) {
-        this.VistaProblema = VistaProblema;
+    public ControladorProblema(AñadirProblema AñadirProblema, VerProblema VistaProblema, Soluciones Soluciones, ModeloProblema Modelo, ConsultasProblema Problema) {
         this.AñadirProblema = AñadirProblema;
+        this.VistaProblema = VistaProblema;
+        this.Soluciones = Soluciones;
         this.Modelo = Modelo;
         this.Problema = Problema;
         AñadirProblema.BtnEnviar.addActionListener(this);
         AñadirProblema.BtnCancelar.addActionListener(this);
         AñadirProblema.BtnVerProb.addActionListener(this);
+        AñadirProblema.BtnVerAvan.addActionListener(this);
+        VistaProblema.BtnVolver.addActionListener(this);
+        Soluciones.BtnVolver.addActionListener(this);
     }
 
     public void Iniciar() throws SQLException {
@@ -35,6 +41,9 @@ public class ControladorProblema implements ActionListener {
         VistaProblema.setTitle("Problemas");
         VistaProblema.setLocationRelativeTo(null);
         VistaProblema.setVisible(false);
+        Soluciones.setTitle("Soluciones y Avances");
+        Soluciones.setLocationRelativeTo(null);
+        Soluciones.setVisible(false);
         Problema.Mostrar(VistaProblema.JTablaProblema);
     }
 
@@ -60,6 +69,21 @@ public class ControladorProblema implements ActionListener {
             VistaProblema.setLocationRelativeTo(null);
             AñadirProblema.setVisible(false);
             Problema.Mostrar(VistaProblema.JTablaProblema);
+        }
+
+        if (e.getSource() == VistaProblema.BtnVolver) {
+            AñadirProblema.setVisible(true);
+            VistaProblema.setVisible(false);
+        }
+
+        if (e.getSource() == AñadirProblema.BtnVerAvan) {         
+            Soluciones.setVisible(true);
+            AñadirProblema.setVisible(false);
+        }
+        
+        if (e.getSource() == Soluciones.BtnVolver) {
+            AñadirProblema.setVisible(true);
+            Soluciones.setVisible(false);
         }
     }
 
