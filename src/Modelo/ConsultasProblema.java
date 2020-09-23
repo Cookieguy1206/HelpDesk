@@ -3,12 +3,13 @@ package Modelo;
 import Conexion.Conexion;
 import Vista.AñadirProblema;
 import Vista.VerProblema;
+import Vista.VistaTicket;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -18,6 +19,7 @@ public class ConsultasProblema {
     ResultSet rs;
     AñadirProblema AñadirProblema = new AñadirProblema();
     VerProblema VistaProblema = new VerProblema();
+    VistaTicket VistaTicket = new VistaTicket();
     Conexion con = new Conexion();
     Connection conexion;
 
@@ -26,16 +28,17 @@ public class ConsultasProblema {
     }
 
     //Funcion para insertar el porblema en la BD
-    public boolean Insertar(ModeloProblema Modelo, AñadirProblema AñadirProblema) {
+    public boolean InsertarProblema(ModeloProblema Modelo, AñadirProblema AñadirProblema) {
         try {
             int idProblema = con.AutoIncrement();
             int idPrioridad = AñadirProblema.JCPrioridad.getSelectedIndex();
             int idAreaProb = AñadirProblema.JCArea.getSelectedIndex();
             int idTipoProb = AñadirProblema.JCTipoSolicitud.getSelectedIndex();
+            int idEstado = VistaTicket.JCEstadoTicket.getSelectedIndex();
 
             ps = conexion.prepareStatement("INSERT INTO problema(idProblema, NombreProb, DetalleProb, FechaCreacion, "
-                    + "RefIdPrioridad, RefAreaProb, RefTipoProb) "
-                    + "VALUES(" + idProblema + ",?,?,CURRENT_TIMESTAMP," + idPrioridad + "," + idAreaProb + "," + idTipoProb + ")");
+                    + "RefIdPrioridad, RefAreaProb, RefTipoProb, RefEstado) "
+                    + "VALUES(" + idProblema + ",?,?,CURRENT_TIMESTAMP," + idPrioridad + "," + idAreaProb + "," + idTipoProb + "," + idEstado + ")");
             ps.setString(1, Modelo.getNombreProb());
             ps.setString(2, Modelo.getDetalleProb());
 
@@ -66,6 +69,7 @@ public class ConsultasProblema {
             ModeloTabla.addColumn("Tipo");
             ModeloTabla.addColumn("Prioridad");
             ModeloTabla.addColumn("Area");
+            ModeloTabla.addColumn("Estado");
 
             ResultSetMetaData rsMD = rs.getMetaData();
             int CantidadColumnas = rsMD.getColumnCount();
@@ -91,39 +95,31 @@ public class ConsultasProblema {
         }*/
     }
 
-    //Al escribir en el JTextField se buscará lo deseado
-    public void Buscar(String Buscar) throws SQLException {
-        String[] Columnas = {"Tiket", "Nombre", "Detalle", "Fecha De Creacion", "Tipo", "Prioridad", "Area"};
-        String[] Registros = new String[7];
-
-        DefaultTableModel ModeloTabla = new DefaultTableModel(null, Columnas);
-
-        String SQL = "SELECT * FROM TablaProblema WHERE idProblema LIKE '%" + Buscar + "%' "
-                + "OR  NombreProb LIKE '%" + Buscar + "%' "
-                + "OR  DetalleProb LIKE '%" + Buscar + "%' "
-                + "OR  TipoProb LIKE '%" + Buscar + "%' "
-                + "OR  AreaProb LIKE '%" + Buscar + "%' ";
-
+    //Modificar
+    public boolean CambiarEstado(ModeloProblema Modelo, VistaTicket VistaTicket) {
         try {
-            Statement st = conexion.createStatement();
-            rs = st.executeQuery(SQL);
+            ps = conexion.prepareStatement("UPDATE Problema SET RefEstado = ?  WHERE (`idProblema` = '1');");
 
-            while (rs.next()) {
-                Registros[0] = rs.getString("idProblema");
-                Registros[1] = rs.getString("NombreProb");
-                Registros[2] = rs.getString("DetalleProb");
-                Registros[3] = rs.getString("FechaCreacion");
-                Registros[4] = rs.getString("TipoProb");
-                Registros[5] = rs.getString("Prioridad");
-                Registros[6] = rs.getString("AreaProb");
+            ps.setInt(1, Modelo.getRefEstado());
 
-                ModeloTabla.addRow(Registros);
+            int Resultado = ps.executeUpdate();
+            System.out.println("Modificado Exitoso");
+
+            if (Resultado > 0) {
+                return true;
+            } else {
+                return false;
             }
-
-            VistaProblema.JTablaProblema.setModel(ModeloTabla);
-
         } catch (SQLException ex) {
             System.out.println("Error" + ex);
+            return false;
         }
+        /*finally {
+        try {
+        conexion.close();
+        } catch (SQLException ex) {
+        System.out.println("Error" + ex);
+        }
+        }*/
     }
 }

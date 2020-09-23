@@ -1,9 +1,10 @@
 package Controlador;
 
 import Modelo.ConsultasProblema;
+import Modelo.ModeloPersona;
 import Modelo.ModeloProblema;
 import Vista.AñadirProblema;
-import Vista.Soluciones;
+import Vista.VistaTicket;
 import Vista.VerProblema;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,22 +15,26 @@ public class ControladorProblema implements ActionListener {
 
     private final AñadirProblema AñadirProblema;
     private final VerProblema VistaProblema;
-    private final Soluciones Soluciones;
+    private final VistaTicket VistaTicket;
     private final ModeloProblema Modelo;
+    private final ModeloPersona ModeloP;
     private final ConsultasProblema Problema;
 
-    public ControladorProblema(AñadirProblema AñadirProblema, VerProblema VistaProblema, Soluciones Soluciones, ModeloProblema Modelo, ConsultasProblema Problema) {
+    public ControladorProblema(AñadirProblema AñadirProblema, VerProblema VistaProblema, VistaTicket VistaTicket, ModeloProblema Modelo, ModeloPersona ModeloP, ConsultasProblema Problema) {
         this.AñadirProblema = AñadirProblema;
         this.VistaProblema = VistaProblema;
-        this.Soluciones = Soluciones;
+        this.VistaTicket = VistaTicket;
         this.Modelo = Modelo;
+        this.ModeloP = ModeloP;
         this.Problema = Problema;
         AñadirProblema.BtnEnviar.addActionListener(this);
         AñadirProblema.BtnCancelar.addActionListener(this);
         AñadirProblema.BtnVerProb.addActionListener(this);
         AñadirProblema.BtnVerAvan.addActionListener(this);
         VistaProblema.BtnVolver.addActionListener(this);
-        Soluciones.BtnVolver.addActionListener(this);
+        VistaProblema.JMenuVer.addActionListener(this);
+        VistaTicket.BtnVolver.addActionListener(this);
+        VistaTicket.BtnGuardar.addActionListener(this);
     }
 
     public void Iniciar() throws SQLException {
@@ -38,12 +43,16 @@ public class ControladorProblema implements ActionListener {
         AñadirProblema.setVisible(true);
         AñadirProblema.TxtID.setVisible(false);
         AñadirProblema.TxtFecha.setVisible(false);
+        AñadirProblema.TxtCorreo.setEnabled(false);
+        AñadirProblema.JCSubTipoSol.setEnabled(false);
+        AñadirProblema.JCSubSubTipo.setEnabled(false);
         VistaProblema.setTitle("Problemas");
         VistaProblema.setLocationRelativeTo(null);
         VistaProblema.setVisible(false);
-        Soluciones.setTitle("Soluciones y Avances");
-        Soluciones.setLocationRelativeTo(null);
-        Soluciones.setVisible(false);
+        VistaTicket.setTitle("Soluciones y Avances");
+        VistaTicket.setLocationRelativeTo(null);
+        VistaTicket.setVisible(false);
+        VistaTicket.TxtCorreoTicket.setEnabled(false);
         Problema.Mostrar(VistaProblema.JTablaProblema);
     }
 
@@ -53,8 +62,9 @@ public class ControladorProblema implements ActionListener {
         if (e.getSource() == AñadirProblema.BtnEnviar) {
             Modelo.setNombreProb(AñadirProblema.TxtTituloSolicitud.getText());
             Modelo.setDetalleProb(AñadirProblema.TxtDetalleSolicitud.getText());
+            ModeloP.setCorreoPersona(AñadirProblema.TxtCorreo.getText());
 
-            if (Problema.Insertar(Modelo, AñadirProblema)) {
+            if (Problema.InsertarProblema(Modelo, AñadirProblema)) {
                 JOptionPane.showMessageDialog(null, "Registro INSERTADO CORRECTAMENTE");
                 Limpiar();
             } else {
@@ -76,20 +86,52 @@ public class ControladorProblema implements ActionListener {
             VistaProblema.setVisible(false);
         }
 
-        if (e.getSource() == AñadirProblema.BtnVerAvan) {         
-            Soluciones.setVisible(true);
+        if (e.getSource() == AñadirProblema.BtnVerAvan) {
+            VistaTicket.setVisible(true);
             AñadirProblema.setVisible(false);
         }
-        
-        if (e.getSource() == Soluciones.BtnVolver) {
+
+        if (e.getSource() == VistaTicket.BtnVolver) {
             AñadirProblema.setVisible(true);
-            Soluciones.setVisible(false);
+            VistaTicket.setVisible(false);
+        }
+
+        if (e.getSource() == VistaProblema.JMenuVer) {
+            VistaProblema.setVisible(false);
+            VistaTicket.setVisible(true);
+
+            int SelectedRow = VistaProblema.JTablaProblema.getSelectedRow();
+            int NumSelectedRow = VistaProblema.JTablaProblema.getSelectedRowCount();
+
+            if (SelectedRow >= 0 && NumSelectedRow == 1) {
+                VistaTicket.TxtIDTicket.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 0).toString());
+                VistaTicket.JCAreaTicket.setSelectedItem(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 6).toString());
+                VistaTicket.JCEstadoTicket.setSelectedItem(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 7).toString());
+                VistaTicket.TxtDescripcion.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 2).toString());
+
+                VistaTicket.TxtIDTicket.setEditable(false);
+                VistaTicket.JCAreaTicket.setEnabled(false);
+                VistaTicket.TxtDescripcion.setEditable(false);
+            }
+        }
+
+        if (e.getSource() == VistaTicket.BtnGuardar) {
+            
+            Modelo.setRefEstado(VistaTicket.JCEstadoTicket.getSelectedIndex());
+            
+            if (Problema.CambiarEstado(Modelo, VistaTicket)) {
+                Problema.Mostrar(VistaProblema.JTablaProblema);
+            } else {
+                JOptionPane.showMessageDialog(null, "ERROR el estado NO ha podido ser cambiado");
+                Problema.Mostrar(VistaProblema.JTablaProblema);
+            }
         }
     }
 
     public void Limpiar() {
         AñadirProblema.TxtTituloSolicitud.setText(null);
         AñadirProblema.TxtDetalleSolicitud.setText(null);
+        AñadirProblema.TxtCorreo.setText(null);
         AñadirProblema.JCTipoSolicitud.setSelectedIndex(0);
         AñadirProblema.JCArea.setSelectedIndex(0);
         AñadirProblema.JCPrioridad.setSelectedIndex(0);

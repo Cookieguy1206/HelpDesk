@@ -1,12 +1,10 @@
 package Vista;
 
 import Conexion.Conexion;
-import Modelo.ConsultasProblema;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -23,8 +21,8 @@ public class VerProblema extends javax.swing.JFrame {
 
     //Al escribir en el JTextField se buscará lo deseado
     public void Buscar(String Buscar) throws SQLException {
-        String[] Columnas = {"Tiket", "Nombre", "Detalle", "Fecha De Creacion", "Tipo", "Prioridad", "Area"};
-        String[] Registros = new String[7];
+        String[] Columnas = {"Tiket", "Nombre", "Detalle", "Fecha De Creacion", "Tipo", "Prioridad", "Area", "Estado"};
+        String[] Registros = new String[8];
 
         DefaultTableModel ModeloTabla = new DefaultTableModel(null, Columnas);
 
@@ -63,6 +61,7 @@ public class VerProblema extends javax.swing.JFrame {
                 Registros[4] = rs.getString("TipoProb");
                 Registros[5] = rs.getString("Prioridad");
                 Registros[6] = rs.getString("AreaProb");
+                Registros[7] = rs.getString("Estado");
 
                 ModeloTabla.addRow(Registros);
             }
@@ -78,27 +77,19 @@ public class VerProblema extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        JTablaProblema = new javax.swing.JTable();
+        JPMenuVer = new javax.swing.JPopupMenu();
+        JMenuVer = new javax.swing.JMenuItem();
         TxtBuscar = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         JCBuscar = new javax.swing.JComboBox<>();
         BtnVolver = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        JTablaProblema = new javax.swing.JTable();
+
+        JMenuVer.setText("Ver");
+        JPMenuVer.add(JMenuVer);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        JTablaProblema.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(JTablaProblema);
 
         TxtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -112,26 +103,35 @@ public class VerProblema extends javax.swing.JFrame {
 
         BtnVolver.setText("Volver a la vista anterior");
 
+        JTablaProblema.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        JTablaProblema.setComponentPopupMenu(JPMenuVer);
+        jScrollPane1.setViewportView(JTablaProblema);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel1)
-                        .addGap(6, 6, 6)
-                        .addComponent(TxtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(BtnVolver, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
-                            .addComponent(JCBuscar, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(219, 219, 219)))
-                .addContainerGap())
+                .addGap(24, 24, 24)
+                .addComponent(jLabel1)
+                .addGap(6, 6, 6)
+                .addComponent(TxtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(BtnVolver, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+                    .addComponent(JCBuscar, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(225, Short.MAX_VALUE))
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -144,8 +144,9 @@ public class VerProblema extends javax.swing.JFrame {
                         .addComponent(JCBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BtnVolver)
-                .addGap(50, 50, 50)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE))
+                .addGap(52, 52, 52)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -177,6 +178,8 @@ public class VerProblema extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton BtnVolver;
     public javax.swing.JComboBox<String> JCBuscar;
+    public javax.swing.JMenuItem JMenuVer;
+    public javax.swing.JPopupMenu JPMenuVer;
     public javax.swing.JTable JTablaProblema;
     public javax.swing.JTextField TxtBuscar;
     private javax.swing.JLabel jLabel1;
