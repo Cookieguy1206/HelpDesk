@@ -75,6 +75,10 @@ public class VistaTicket extends javax.swing.JFrame {
         BtnGuardar = new javax.swing.JButton();
         JCAreaTicket = new javax.swing.JComboBox<>();
         PanelSolucion = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TxtSolucion = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
+        TxtIDSolucion = new javax.swing.JTextField();
         JMenuBar = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -173,15 +177,34 @@ public class VistaTicket extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Ticket", PanelTicket);
 
+        TxtSolucion.setColumns(20);
+        TxtSolucion.setRows(5);
+        jScrollPane1.setViewportView(TxtSolucion);
+
+        jLabel1.setText("Solucion");
+
         javax.swing.GroupLayout PanelSolucionLayout = new javax.swing.GroupLayout(PanelSolucion);
         PanelSolucion.setLayout(PanelSolucionLayout);
         PanelSolucionLayout.setHorizontalGroup(
             PanelSolucionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 782, Short.MAX_VALUE)
+            .addGroup(PanelSolucionLayout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(PanelSolucionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 718, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(TxtIDSolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         PanelSolucionLayout.setVerticalGroup(
             PanelSolucionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 518, Short.MAX_VALUE)
+            .addGroup(PanelSolucionLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(TxtIDSolucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(170, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Solucion", PanelSolucion);
@@ -240,12 +263,16 @@ public class VistaTicket extends javax.swing.JFrame {
     private javax.swing.JPanel PanelTicket;
     public javax.swing.JTextField TxtCorreoTicket;
     public javax.swing.JTextPane TxtDescripcion;
+    public javax.swing.JTextField TxtIDSolucion;
     public javax.swing.JTextField TxtIDTicket;
+    public javax.swing.JTextArea TxtSolucion;
+    private javax.swing.JLabel jLabel1;
     public javax.swing.JLabel jLabel10;
     public javax.swing.JLabel jLabel6;
     public javax.swing.JLabel jLabel7;
     public javax.swing.JLabel jLabel8;
     public javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables

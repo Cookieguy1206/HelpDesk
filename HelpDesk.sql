@@ -36,13 +36,16 @@ SELECT * FROM Estado;
 
 SELECT * FROM Persona;
 
+SELECT * FROM Soluciones;
+
 SELECT * FROM TablaProblema;
 
-SELECT P.idProblema, P.NombreProb, P.DetalleProb, P.FechaCreacion, TP.TipoProb, PR.Prioridad, AP.AreaProb, ES.Estado, PE.CorreoPersona FROM Problema AS P
+SELECT P.idProblema, P.NombreProb, P.DetalleProb, P.FechaCreacion, TP.TipoProb, PR.Prioridad, AP.AreaProb, ES.Estado, PE.CorreoPersona, SO.Solucion FROM Problema AS P
 INNER JOIN TipoProb AS TP ON P.RefTipoProb = TP.idTipoProb
 INNER JOIN Prioridad AS PR ON P.RefIdPrioridad = PR.idPrioridad
 INNER JOIN Estado AS ES ON P.RefEstado = ES.idEstado
 INNER JOIN Persona AS PE ON P.RefPersona = PE.idPersona
+INNER JOIN Soluciones AS SO ON P.RefSolucion = SO.idSolucion
 INNER JOIN AreaProb AS AP ON P.RefAreaProb = AP.idAreaProb;
 
 SET FOREIGN_KEY_CHECKS=0

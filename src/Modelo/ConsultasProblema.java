@@ -5,7 +5,6 @@ import Vista.AñadirProblema;
 import Vista.VerProblema;
 import Vista.VistaTicket;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -31,16 +30,37 @@ public class ConsultasProblema {
     public boolean InsertarProblema(ModeloProblema Modelo, AñadirProblema AñadirProblema) {
         try {
             int idProblema = con.AutoIncrement();
+            int idSolucion = con.AutoIncrementS();
             int idPrioridad = AñadirProblema.JCPrioridad.getSelectedIndex();
             int idAreaProb = AñadirProblema.JCArea.getSelectedIndex();
             int idTipoProb = AñadirProblema.JCTipoSolicitud.getSelectedIndex();
             int idEstado = VistaTicket.JCEstadoTicket.getSelectedIndex();
 
             ps = conexion.prepareStatement("INSERT INTO problema(idProblema, NombreProb, DetalleProb, FechaCreacion, "
-                    + "RefIdPrioridad, RefAreaProb, RefTipoProb, RefEstado) "
-                    + "VALUES(" + idProblema + ",?,?,CURRENT_TIMESTAMP," + idPrioridad + "," + idAreaProb + "," + idTipoProb + "," + idEstado + ")");
+                    + "RefIdPrioridad, RefAreaProb, RefTipoProb, RefEstado, RefSolucion) "
+                    + "VALUES(" + idProblema + ",?,?,CURRENT_TIMESTAMP," + idPrioridad + "," + idAreaProb + "," + idTipoProb + "," + idEstado + "," + idSolucion + ")");
             ps.setString(1, Modelo.getNombreProb());
             ps.setString(2, Modelo.getDetalleProb());
+
+            System.out.println(ps);
+
+            int Resultado = ps.executeUpdate();
+            return Resultado > 0;
+
+        } catch (SQLException ex) {
+            System.out.println("Error" + ex);
+            return false;
+        }
+    }
+
+    //Funcion para insertar el porblema en la BD
+    public boolean PlantillaSolucion(ModeloSolucion ModeloS) {
+        try {
+            int idSolucion = con.AutoIncrementS();
+
+            ps = conexion.prepareStatement("INSERT INTO Soluciones(idSolucion, Solucion) "
+                    + "VALUES(" + idSolucion + ",?)");
+            ps.setString(1, ModeloS.getSolucion());
 
             System.out.println(ps);
 
@@ -70,6 +90,8 @@ public class ConsultasProblema {
             ModeloTabla.addColumn("Prioridad");
             ModeloTabla.addColumn("Area");
             ModeloTabla.addColumn("Estado");
+            ModeloTabla.addColumn("Correo");
+            ModeloTabla.addColumn("Solucion");
 
             ResultSetMetaData rsMD = rs.getMetaData();
             int CantidadColumnas = rsMD.getColumnCount();
@@ -86,24 +108,18 @@ public class ConsultasProblema {
         } catch (SQLException e) {
             System.out.println("Error" + e);
         }
-        /* finally {
-        try {
-        conexion.close();
-        } catch (SQLException ex) {
-        System.out.println("Error" + ex);
-        }
-        }*/
     }
 
     //Modificar
     public boolean CambiarEstado(ModeloProblema Modelo, VistaTicket VistaTicket) {
         try {
-            ps = conexion.prepareStatement("UPDATE Problema SET RefEstado = ?  WHERE (`idProblema` = '1');");
+            ps = conexion.prepareStatement("UPDATE Problema SET RefEstado = ?  WHERE idProblema = " + VistaTicket.TxtIDTicket.getText() + "");
 
             ps.setInt(1, Modelo.getRefEstado());
 
             int Resultado = ps.executeUpdate();
-            System.out.println("Modificado Exitoso");
+            System.out.println("Modificado Exitoso:");
+            System.out.println(ps);
 
             if (Resultado > 0) {
                 return true;
@@ -114,12 +130,24 @@ public class ConsultasProblema {
             System.out.println("Error" + ex);
             return false;
         }
-        /*finally {
+    }
+
+    //Insertar la solucion
+    public boolean InsertarSolucion(ModeloSolucion ModeloS, VistaTicket VistaTicket, ModeloProblema Modelo) {
         try {
-        conexion.close();
+
+            ps = conexion.prepareStatement("UPDATE Soluciones SET Solucion = ? WHERE idSolucion = "+ VistaTicket.TxtIDSolucion.getText() +"");
+            ps.setString(1, ModeloS.getSolucion());
+
+            System.out.println("\nModificado Exitoso:");
+            System.out.println(ps);
+
+            int Resultado = ps.executeUpdate();
+            return Resultado > 0;
+
         } catch (SQLException ex) {
-        System.out.println("Error" + ex);
+            System.out.println("Error" + ex);
+            return false;
         }
-        }*/
     }
 }

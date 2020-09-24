@@ -3,6 +3,7 @@ package Controlador;
 import Modelo.ConsultasProblema;
 import Modelo.ModeloPersona;
 import Modelo.ModeloProblema;
+import Modelo.ModeloSolucion;
 import Vista.AñadirProblema;
 import Vista.VistaTicket;
 import Vista.VerProblema;
@@ -18,14 +19,16 @@ public class ControladorProblema implements ActionListener {
     private final VistaTicket VistaTicket;
     private final ModeloProblema Modelo;
     private final ModeloPersona ModeloP;
+    private final ModeloSolucion ModeloS;
     private final ConsultasProblema Problema;
 
-    public ControladorProblema(AñadirProblema AñadirProblema, VerProblema VistaProblema, VistaTicket VistaTicket, ModeloProblema Modelo, ModeloPersona ModeloP, ConsultasProblema Problema) {
+    public ControladorProblema(AñadirProblema AñadirProblema, VerProblema VistaProblema, VistaTicket VistaTicket, ModeloProblema Modelo, ModeloPersona ModeloP, ModeloSolucion ModeloS, ConsultasProblema Problema) {
         this.AñadirProblema = AñadirProblema;
         this.VistaProblema = VistaProblema;
         this.VistaTicket = VistaTicket;
         this.Modelo = Modelo;
         this.ModeloP = ModeloP;
+        this.ModeloS = ModeloS;
         this.Problema = Problema;
         AñadirProblema.BtnEnviar.addActionListener(this);
         AñadirProblema.BtnCancelar.addActionListener(this);
@@ -53,6 +56,7 @@ public class ControladorProblema implements ActionListener {
         VistaTicket.setLocationRelativeTo(null);
         VistaTicket.setVisible(false);
         VistaTicket.TxtCorreoTicket.setEnabled(false);
+        //VistaTicket.TxtIDSolucion.setVisible(false);
         Problema.Mostrar(VistaProblema.JTablaProblema);
     }
 
@@ -63,8 +67,9 @@ public class ControladorProblema implements ActionListener {
             Modelo.setNombreProb(AñadirProblema.TxtTituloSolicitud.getText());
             Modelo.setDetalleProb(AñadirProblema.TxtDetalleSolicitud.getText());
             ModeloP.setCorreoPersona(AñadirProblema.TxtCorreo.getText());
+            ModeloS.setSolucion(VistaTicket.TxtSolucion.getText());
 
-            if (Problema.InsertarProblema(Modelo, AñadirProblema)) {
+            if (Problema.InsertarProblema(Modelo, AñadirProblema) && Problema.PlantillaSolucion(ModeloS)) {
                 JOptionPane.showMessageDialog(null, "Registro INSERTADO CORRECTAMENTE");
                 Limpiar();
             } else {
@@ -108,6 +113,8 @@ public class ControladorProblema implements ActionListener {
                 VistaTicket.JCAreaTicket.setSelectedItem(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 6).toString());
                 VistaTicket.JCEstadoTicket.setSelectedItem(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 7).toString());
                 VistaTicket.TxtDescripcion.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 2).toString());
+                VistaTicket.TxtIDSolucion.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 0).toString());
+                VistaTicket.TxtSolucion.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 9).toString());
 
                 VistaTicket.TxtIDTicket.setEditable(false);
                 VistaTicket.JCAreaTicket.setEnabled(false);
@@ -116,14 +123,20 @@ public class ControladorProblema implements ActionListener {
         }
 
         if (e.getSource() == VistaTicket.BtnGuardar) {
-            
+
             Modelo.setRefEstado(VistaTicket.JCEstadoTicket.getSelectedIndex());
-            
+            ModeloS.setSolucion(VistaTicket.TxtSolucion.getText());
+
             if (Problema.CambiarEstado(Modelo, VistaTicket)) {
-                Problema.Mostrar(VistaProblema.JTablaProblema);
             } else {
                 JOptionPane.showMessageDialog(null, "ERROR el estado NO ha podido ser cambiado");
                 Problema.Mostrar(VistaProblema.JTablaProblema);
+            }
+
+            if (Problema.InsertarSolucion(ModeloS, VistaTicket, Modelo)) {
+            } else {
+                JOptionPane.showMessageDialog(null, "ERROR la solucion NO se pudo realizar");
+                Limpiar();
             }
         }
     }

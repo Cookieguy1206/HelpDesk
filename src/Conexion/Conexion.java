@@ -43,10 +43,10 @@ public class Conexion {
         return id;
     }
     
-        public int AutoIncrement2(){
+        public int AutoIncrementS(){
         int id = 1;
         try {
-            ps = getConnection().prepareStatement("SELECT MAX(idPersona) FROM Persona");
+            ps = getConnection().prepareStatement("SELECT MAX(idSolucion) FROM Soluciones");
             rs = ps.executeQuery();
             
             while (rs.next()) {                
