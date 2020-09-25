@@ -69,7 +69,7 @@ public class ControladorProblema implements ActionListener {
             ModeloP.setCorreoPersona(AñadirProblema.TxtCorreo.getText());
             ModeloS.setSolucion(VistaTicket.TxtSolucion.getText());
 
-            if (Problema.InsertarProblema(Modelo, AñadirProblema) && Problema.PlantillaSolucion(ModeloS)) {
+            if (Problema.InsertarProblema(Modelo, AñadirProblema)) {
                 JOptionPane.showMessageDialog(null, "Registro INSERTADO CORRECTAMENTE");
                 Limpiar();
             } else {

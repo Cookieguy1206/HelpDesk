@@ -5,9 +5,12 @@
         <group>
             <file>file:/C:/Users/admon/Documents/NetBeansProjects/CRUD_Escuela/src/Vista/AñadirProblema.java</file>
             <file>file:/C:/Users/admon/Documents/NetBeansProjects/CRUD_Escuela/src/Vista/VistaTicket.java</file>
+            <file>file:/C:/Users/admon/Documents/NetBeansProjects/CRUD_Escuela/src/HelpDesk/HelpDesk.java</file>
             <file>file:/C:/Users/admon/Documents/NetBeansProjects/CRUD_Escuela/src/Vista/VerProblema.java</file>
             <file>file:/C:/Users/admon/Documents/NetBeansProjects/CRUD_Escuela/src/Modelo/ConsultasProblema.java</file>
             <file>file:/C:/Users/admon/Documents/NetBeansProjects/CRUD_Escuela/src/Controlador/ControladorProblema.java</file>
+            <file>file:/C:/Users/admon/Documents/NetBeansProjects/CRUD_Escuela/src/Conexion/Conexion.java</file>
+            <file>file:/C:/Users/admon/Documents/NetBeansProjects/CRUD_Escuela/src/Modelo/ModeloProblema.java</file>
         </group>
     </open-files>
 </project-private>

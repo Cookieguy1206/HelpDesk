@@ -53,26 +53,6 @@ public class ConsultasProblema {
         }
     }
 
-    //Funcion para insertar el porblema en la BD
-    public boolean PlantillaSolucion(ModeloSolucion ModeloS) {
-        try {
-            int idSolucion = con.AutoIncrementS();
-
-            ps = conexion.prepareStatement("INSERT INTO Soluciones(idSolucion, Solucion) "
-                    + "VALUES(" + idSolucion + ",?)");
-            ps.setString(1, ModeloS.getSolucion());
-
-            System.out.println(ps);
-
-            int Resultado = ps.executeUpdate();
-            return Resultado > 0;
-
-        } catch (SQLException ex) {
-            System.out.println("Error" + ex);
-            return false;
-        }
-    }
-
     //Funcion para mostrar datos en el JTable
     public void Mostrar(JTable TablaProblema) {
         DefaultTableModel ModeloTabla = new DefaultTableModel();

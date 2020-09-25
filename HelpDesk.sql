@@ -2,8 +2,8 @@ CREATE DATABASE HelpDesk;
 
 USE HelpDesk;
 
-INSERT INTO Problema (idProblema, NombreProb, DetalleProb, FechaCreacion, RefIdPrioridad, RefAreaProb, RefTipoProb) 
-VALUES (17, "Impresora no funciona", "Mi impresora no imprime", CURRENT_TIMESTAMP(), 2, 5, 5);
+INSERT INTO Problema (idProblema, NombreProb, DetalleProb, FechaCreacion, RefIdPrioridad, RefAreaProb, RefTipoProb, RefEstado, RefPersona, RefSolucion) 
+VALUES (2, "Impresora no funciona", "Mi impresora no imprime", CURRENT_TIMESTAMP(), 2, 5, 5, 0, 1, 2);
 
 INSERT INTO Persona (idPersona, CorreoPersona) 
 VALUES (2, "ch@gmail.com");
@@ -39,6 +39,12 @@ SELECT * FROM Persona;
 SELECT * FROM Soluciones;
 
 SELECT * FROM TablaProblema;
+
+CREATE TRIGGER Audit_Prob_Sol AFTER INSERT ON Problema 
+FOR EACH ROW 
+INSERT INTO Soluciones(idSolucion, Solucion) VALUES (NEW.RefSolucion, '');
+
+DROP TRIGGER Audit_Prob_Sol;
 
 SELECT P.idProblema, P.NombreProb, P.DetalleProb, P.FechaCreacion, TP.TipoProb, PR.Prioridad, AP.AreaProb, ES.Estado, PE.CorreoPersona, SO.Solucion FROM Problema AS P
 INNER JOIN TipoProb AS TP ON P.RefTipoProb = TP.idTipoProb
