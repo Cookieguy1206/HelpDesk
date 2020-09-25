@@ -13,6 +13,7 @@ public class ModeloProblema {
     private int RefTipoProb;
     private int RefEstado;
     private int RefPersona;
+    private int RefSolucion;
 
     public int getIdProblema() {
         return idProblema;
@@ -84,6 +85,14 @@ public class ModeloProblema {
 
     public void setRefPersona(int RefPersona) {
         this.RefPersona = RefPersona;
+    }
+
+    public int getRefSolucion() {
+        return RefSolucion;
+    }
+
+    public void setRefSolucion(int RefSolucion) {
+        this.RefSolucion = RefSolucion;
     }
     
 }

@@ -53,6 +53,24 @@ public class ConsultasProblema {
         }
     }
 
+    public boolean IniciarTrigger(ModeloProblema Modelo) {
+        try {
+            ps = conexion.prepareStatement("CREATE TRIGGER Audit_Prob_Sol AFTER INSERT ON Problema "
+                    + "FOR EACH ROW "
+                    + "INSERT INTO Soluciones(idSolucion, Solucion) VALUES (NEW.?, '')");
+            ps.setInt(1, Modelo.getRefSolucion());
+            
+            System.out.println(ps);
+            
+            int Resultado = ps.executeUpdate();
+            return Resultado > 0;
+            
+        } catch (SQLException ex) {
+            System.out.println("Error" + ex);
+            return false;
+        }
+    }
+
     //Funcion para mostrar datos en el JTable
     public void Mostrar(JTable TablaProblema) {
         DefaultTableModel ModeloTabla = new DefaultTableModel();
@@ -116,7 +134,7 @@ public class ConsultasProblema {
     public boolean InsertarSolucion(ModeloSolucion ModeloS, VistaTicket VistaTicket, ModeloProblema Modelo) {
         try {
 
-            ps = conexion.prepareStatement("UPDATE Soluciones SET Solucion = ? WHERE idSolucion = "+ VistaTicket.TxtIDSolucion.getText() +"");
+            ps = conexion.prepareStatement("UPDATE Soluciones SET Solucion = ? WHERE idSolucion = " + VistaTicket.TxtIDSolucion.getText() + "");
             ps.setString(1, ModeloS.getSolucion());
 
             System.out.println("\nModificado Exitoso:");

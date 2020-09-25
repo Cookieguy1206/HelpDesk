@@ -58,6 +58,7 @@ public class ControladorProblema implements ActionListener {
         VistaTicket.TxtCorreoTicket.setEnabled(false);
         //VistaTicket.TxtIDSolucion.setVisible(false);
         Problema.Mostrar(VistaProblema.JTablaProblema);
+        Problema.IniciarTrigger(Modelo);
     }
 
     @Override
@@ -97,7 +98,7 @@ public class ControladorProblema implements ActionListener {
         }
 
         if (e.getSource() == VistaTicket.BtnVolver) {
-            AñadirProblema.setVisible(true);
+            VistaProblema.setVisible(true);
             VistaTicket.setVisible(false);
         }
 
@@ -134,6 +135,9 @@ public class ControladorProblema implements ActionListener {
             }
 
             if (Problema.InsertarSolucion(ModeloS, VistaTicket, Modelo)) {
+                JOptionPane.showMessageDialog(null, "Listo!!");
+                VistaTicket.setVisible(false);
+                VistaProblema.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "ERROR la solucion NO se pudo realizar");
                 Limpiar();
