@@ -21,8 +21,8 @@ public class VerProblema extends javax.swing.JFrame {
 
     //Al escribir en el JTextField se buscará lo deseado
     public void Buscar(String Buscar) throws SQLException {
-        String[] Columnas = {"Tiket", "Nombre", "Detalle", "Fecha De Creacion", "Tipo", "Prioridad", "Area", "Estado", "Solucion"};
-        String[] Registros = new String[9];
+        String[] Columnas = {"Tiket", "Nombre", "Detalle", "Fecha De Creacion", "Estado", "Solucion", "Area"};
+        String[] Registros = new String[7];
 
         DefaultTableModel ModeloTabla = new DefaultTableModel(null, Columnas);
 
@@ -39,10 +39,10 @@ public class VerProblema extends javax.swing.JFrame {
                 Connection conexion3 = con.getConnection();
                 ps = conexion3.prepareStatement("SELECT * FROM TablaProblema WHERE DetalleProb LIKE '%" + Buscar + "%' ");
                 break;
-            case 4:
+            /*case 4:
                 Connection conexion4 = con.getConnection();
                 ps = conexion4.prepareStatement("SELECT * FROM TablaProblema WHERE TipoProb LIKE '%" + Buscar + "%' ");
-                break;
+                break;*/
             case 5:
                 Connection conexion5 = con.getConnection();
                 ps = conexion5.prepareStatement("SELECT * FROM TablaProblema WHERE AreaProb LIKE '%" + Buscar + "%' ");
@@ -58,11 +58,9 @@ public class VerProblema extends javax.swing.JFrame {
                 Registros[1] = rs.getString("NombreProb");
                 Registros[2] = rs.getString("DetalleProb");
                 Registros[3] = rs.getString("FechaCreacion");
-                Registros[4] = rs.getString("TipoProb");
-                Registros[5] = rs.getString("Prioridad");
-                Registros[6] = rs.getString("AreaProb");
-                Registros[7] = rs.getString("Estado");
-                Registros[8] = rs.getString("Solucion");
+                Registros[4] = rs.getString("Estado");
+                Registros[5] = rs.getString("Solucion");
+                Registros[6] = rs.getString("Area");
 
                 ModeloTabla.addRow(Registros);
             }
@@ -80,6 +78,7 @@ public class VerProblema extends javax.swing.JFrame {
 
         JPMenuVer = new javax.swing.JPopupMenu();
         JMenuVer = new javax.swing.JMenuItem();
+        JMenuVerAv = new javax.swing.JMenuItem();
         TxtBuscar = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         JCBuscar = new javax.swing.JComboBox<>();
@@ -89,6 +88,9 @@ public class VerProblema extends javax.swing.JFrame {
 
         JMenuVer.setText("Ver");
         JPMenuVer.add(JMenuVer);
+
+        JMenuVerAv.setText("Ver Avances");
+        JPMenuVer.add(JMenuVerAv);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -180,6 +182,7 @@ public class VerProblema extends javax.swing.JFrame {
     public javax.swing.JButton BtnVolver;
     public javax.swing.JComboBox<String> JCBuscar;
     public javax.swing.JMenuItem JMenuVer;
+    public javax.swing.JMenuItem JMenuVerAv;
     public javax.swing.JPopupMenu JPMenuVer;
     public javax.swing.JTable JTablaProblema;
     public javax.swing.JTextField TxtBuscar;

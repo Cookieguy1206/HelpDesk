@@ -2,12 +2,14 @@ package HelpDesk;
 
 import Controlador.ControladorProblema;
 import Modelo.ConsultasProblema;
+import Modelo.ModeloAvances;
 import Modelo.ModeloPersona;
 import Modelo.ModeloProblema;
 import Modelo.ModeloSolucion;
 import Vista.AñadirProblema;
 import Vista.VistaTicket;
 import Vista.VerProblema;
+import Vista.VistaAvances;
 import java.sql.SQLException;
 
 public class HelpDesk {
@@ -28,12 +30,14 @@ public class HelpDesk {
         AñadirProblema AñadirProblema = new AñadirProblema();
         VerProblema VistaProblema = new VerProblema();
         VistaTicket Soluciones = new VistaTicket();
+        VistaAvances VistaAvances = new VistaAvances();
         ModeloProblema Modelo = new ModeloProblema();
         ModeloPersona ModeloP = new ModeloPersona();
         ModeloSolucion ModeloS = new ModeloSolucion();
+        ModeloAvances ModeloA = new ModeloAvances();
         ConsultasProblema Problema = new ConsultasProblema();
 
-        ControladorProblema ControladroProblema = new ControladorProblema(AñadirProblema, VistaProblema, Soluciones, Modelo, ModeloP, ModeloS, Problema);
+        ControladorProblema ControladroProblema = new ControladorProblema(AñadirProblema, VistaProblema, Soluciones, VistaAvances, Modelo, ModeloP, ModeloS, ModeloA, Problema);
         ControladroProblema.Iniciar();
     }
 

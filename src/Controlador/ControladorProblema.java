@@ -1,12 +1,14 @@
 package Controlador;
 
 import Modelo.ConsultasProblema;
+import Modelo.ModeloAvances;
 import Modelo.ModeloPersona;
 import Modelo.ModeloProblema;
 import Modelo.ModeloSolucion;
 import Vista.AñadirProblema;
 import Vista.VistaTicket;
 import Vista.VerProblema;
+import Vista.VistaAvances;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -17,18 +19,22 @@ public class ControladorProblema implements ActionListener {
     private final AñadirProblema AñadirProblema;
     private final VerProblema VistaProblema;
     private final VistaTicket VistaTicket;
+    private final VistaAvances VistaAvances;
     private final ModeloProblema Modelo;
     private final ModeloPersona ModeloP;
     private final ModeloSolucion ModeloS;
+    private final ModeloAvances ModeloA;
     private final ConsultasProblema Problema;
 
-    public ControladorProblema(AñadirProblema AñadirProblema, VerProblema VistaProblema, VistaTicket VistaTicket, ModeloProblema Modelo, ModeloPersona ModeloP, ModeloSolucion ModeloS, ConsultasProblema Problema) {
+    public ControladorProblema(AñadirProblema AñadirProblema, VerProblema VistaProblema, VistaTicket VistaTicket, VistaAvances VistaAvances, ModeloProblema Modelo, ModeloPersona ModeloP, ModeloSolucion ModeloS, ModeloAvances ModeloA, ConsultasProblema Problema) {
         this.AñadirProblema = AñadirProblema;
         this.VistaProblema = VistaProblema;
         this.VistaTicket = VistaTicket;
+        this.VistaAvances = VistaAvances;
         this.Modelo = Modelo;
         this.ModeloP = ModeloP;
         this.ModeloS = ModeloS;
+        this.ModeloA = ModeloA;
         this.Problema = Problema;
         AñadirProblema.BtnEnviar.addActionListener(this);
         AñadirProblema.BtnCancelar.addActionListener(this);
@@ -36,8 +42,10 @@ public class ControladorProblema implements ActionListener {
         AñadirProblema.BtnVerAvan.addActionListener(this);
         VistaProblema.BtnVolver.addActionListener(this);
         VistaProblema.JMenuVer.addActionListener(this);
+        VistaProblema.JMenuVerAv.addActionListener(this);
         VistaTicket.BtnVolver.addActionListener(this);
         VistaTicket.BtnGuardar.addActionListener(this);
+        VistaAvances.BtnCerrar.addActionListener(this);
     }
 
     public void Iniciar() throws SQLException {
@@ -55,10 +63,15 @@ public class ControladorProblema implements ActionListener {
         VistaTicket.setTitle("Soluciones y Avances");
         VistaTicket.setLocationRelativeTo(null);
         VistaTicket.setVisible(false);
-        VistaTicket.TxtCorreoTicket.setEnabled(false);
+        VistaAvances.setTitle("Avances");
+        VistaAvances.setLocationRelativeTo(null);
+        VistaAvances.setVisible(false);
         //VistaTicket.TxtIDSolucion.setVisible(false);
+        VistaTicket.TxtCorreoTicket.setEnabled(false);
+        //VistaTicket.TxtIDAvance.setVisible(false);
         Problema.Mostrar(VistaProblema.JTablaProblema);
         Problema.IniciarTrigger(Modelo);
+        //Problema.IniciarTrigger2(Modelo, ModeloA);
     }
 
     @Override
@@ -101,6 +114,10 @@ public class ControladorProblema implements ActionListener {
             VistaProblema.setVisible(true);
             VistaTicket.setVisible(false);
         }
+        
+        if (e.getSource() == VistaAvances.BtnCerrar) {
+            VistaAvances.setVisible(false);
+        }
 
         if (e.getSource() == VistaProblema.JMenuVer) {
             VistaProblema.setVisible(false);
@@ -111,11 +128,12 @@ public class ControladorProblema implements ActionListener {
 
             if (SelectedRow >= 0 && NumSelectedRow == 1) {
                 VistaTicket.TxtIDTicket.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 0).toString());
-                VistaTicket.JCAreaTicket.setSelectedItem(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 6).toString());
-                VistaTicket.JCEstadoTicket.setSelectedItem(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 7).toString());
+                VistaTicket.JCEstadoTicket.setSelectedItem(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 5).toString());
                 VistaTicket.TxtDescripcion.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 2).toString());
                 VistaTicket.TxtIDSolucion.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 0).toString());
-                VistaTicket.TxtSolucion.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 9).toString());
+                VistaTicket.TxtIDAvance.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 0).toString());
+                VistaTicket.TxtSolucion.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 6).toString());
+                VistaTicket.JCAreaTicket.setSelectedItem(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 4).toString());
 
                 VistaTicket.TxtIDTicket.setEditable(false);
                 VistaTicket.JCAreaTicket.setEnabled(false);
@@ -123,10 +141,26 @@ public class ControladorProblema implements ActionListener {
             }
         }
 
+        if (e.getSource() == VistaProblema.JMenuVerAv) {
+            int SelectedRow = VistaProblema.JTablaProblema.getSelectedRow();
+            int NumSelectedRow = VistaProblema.JTablaProblema.getSelectedRowCount();
+
+            if (SelectedRow >= 0 && NumSelectedRow == 1) {
+                VistaAvances.TxtIDAvance.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 0).toString());
+
+                VistaTicket.TxtIDTicket.setVisible(false);
+                VistaProblema.setTitle("Avances");
+                VistaAvances.setVisible(true);
+                VistaProblema.setLocationRelativeTo(null);
+                Problema.MostrarAvances(VistaAvances.JTablaAvances, VistaAvances);
+            }
+        }
+
         if (e.getSource() == VistaTicket.BtnGuardar) {
 
             Modelo.setRefEstado(VistaTicket.JCEstadoTicket.getSelectedIndex());
             ModeloS.setSolucion(VistaTicket.TxtSolucion.getText());
+            ModeloA.setAvance(VistaTicket.TxtAvance.getText());
 
             if (Problema.CambiarEstado(Modelo, VistaTicket)) {
             } else {
@@ -135,11 +169,29 @@ public class ControladorProblema implements ActionListener {
             }
 
             if (Problema.InsertarSolucion(ModeloS, VistaTicket, Modelo)) {
-                JOptionPane.showMessageDialog(null, "Listo!!");
+                Problema.Mostrar(VistaProblema.JTablaProblema);
                 VistaTicket.setVisible(false);
                 VistaProblema.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "ERROR la solucion NO se pudo realizar");
+                Limpiar();
+            }
+
+            if (Problema.InsertarAvance(ModeloA, VistaTicket, Modelo)) {
+                Problema.Mostrar(VistaProblema.JTablaProblema);
+                VistaTicket.setVisible(false);
+                VistaProblema.setVisible(true);
+            } else {
+                Limpiar();
+            }
+
+            if (Problema.ListarAvances(ModeloA, VistaTicket, Modelo)) {
+                JOptionPane.showMessageDialog(null, "Listo!!");
+                Problema.Mostrar(VistaProblema.JTablaProblema);
+                VistaTicket.setVisible(false);
+                VistaProblema.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "ERROR el avance NO se pudo realizar");
                 Limpiar();
             }
         }

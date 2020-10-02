@@ -3,6 +3,7 @@ package Modelo;
 import Conexion.Conexion;
 import Vista.AñadirProblema;
 import Vista.VerProblema;
+import Vista.VistaAvances;
 import Vista.VistaTicket;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,6 +20,7 @@ public class ConsultasProblema {
     AñadirProblema AñadirProblema = new AñadirProblema();
     VerProblema VistaProblema = new VerProblema();
     VistaTicket VistaTicket = new VistaTicket();
+    VistaAvances VistaAvances = new VistaAvances();
     Conexion con = new Conexion();
     Connection conexion;
 
@@ -31,14 +33,15 @@ public class ConsultasProblema {
         try {
             int idProblema = con.AutoIncrement();
             int idSolucion = con.AutoIncrementS();
+            int idAvances = con.AutoIncrementA();
             int idPrioridad = AñadirProblema.JCPrioridad.getSelectedIndex();
             int idAreaProb = AñadirProblema.JCArea.getSelectedIndex();
             int idTipoProb = AñadirProblema.JCTipoSolicitud.getSelectedIndex();
             int idEstado = VistaTicket.JCEstadoTicket.getSelectedIndex();
 
             ps = conexion.prepareStatement("INSERT INTO problema(idProblema, NombreProb, DetalleProb, FechaCreacion, "
-                    + "RefIdPrioridad, RefAreaProb, RefTipoProb, RefEstado, RefSolucion) "
-                    + "VALUES(" + idProblema + ",?,?,CURRENT_TIMESTAMP," + idPrioridad + "," + idAreaProb + "," + idTipoProb + "," + idEstado + "," + idSolucion + ")");
+                    + "RefIdPrioridad, RefAreaProb, RefTipoProb, RefEstado, RefSolucion, RefAvances) "
+                    + "VALUES(" + idProblema + ",?,?,CURRENT_TIMESTAMP," + idPrioridad + "," + idAreaProb + "," + idTipoProb + "," + idEstado + "," + idSolucion + "," + idAvances + ")");
             ps.setString(1, Modelo.getNombreProb());
             ps.setString(2, Modelo.getDetalleProb());
 
@@ -53,24 +56,57 @@ public class ConsultasProblema {
         }
     }
 
+    /*public void ForeignKeys() {
+    try {
+    ps = conexion.prepareStatement("SET FOREIGN_KEY_CHECKS = 0");
+    
+    System.out.println(ps);
+    
+    ps.executeQuery();
+    
+    } catch (SQLException ex) {
+    System.out.println(ex);
+    }
+    }*/
+    //Iniciar Trigger
     public boolean IniciarTrigger(ModeloProblema Modelo) {
         try {
             ps = conexion.prepareStatement("CREATE TRIGGER Audit_Prob_Sol AFTER INSERT ON Problema "
                     + "FOR EACH ROW "
-                    + "INSERT INTO Soluciones(idSolucion, Solucion) VALUES (NEW.?, '')");
+                    + "INSERT INTO Soluciones(idSolucion, Solucion) VALUES (NEW.RefSolucion = ?, '')");
             ps.setInt(1, Modelo.getRefSolucion());
-            
+
             System.out.println(ps);
-            
+
             int Resultado = ps.executeUpdate();
             return Resultado > 0;
-            
+
         } catch (SQLException ex) {
-            System.out.println("Error" + ex);
+            System.out.println(ex);
             return false;
         }
     }
 
+    //Iniciar Trigger
+    /*public boolean IniciarTrigger2(ModeloProblema Modelo, ModeloAvances ModeloA) {
+        try {
+            ps = conexion.prepareStatement("CREATE TRIGGER Audit_Avances AFTER INSERT ON Problema "
+                    + "FOR EACH ROW "
+                    + "INSERT INTO Avances(idAvances, idAvanceProb, Avance, FechaAvance, RefEstado) VALUES (NEW.RefAvances = ?, NEW.idProblema = ?, '', CURRENT_TIMESTAMP, NEW.RefEstado = ?)");
+            ps.setInt(1, Modelo.getRefAvances());
+            ps.setInt(2, Modelo.getIdProblema());
+            ps.setInt(3, Modelo.getRefEstado());
+
+            System.out.println(ps);
+
+            int Resultado = ps.executeUpdate();
+            return Resultado > 0;
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return false;
+        }
+    }*/
     //Funcion para mostrar datos en el JTable
     public void Mostrar(JTable TablaProblema) {
         DefaultTableModel ModeloTabla = new DefaultTableModel();
@@ -84,12 +120,41 @@ public class ConsultasProblema {
             ModeloTabla.addColumn("Nombre");
             ModeloTabla.addColumn("Detalle");
             ModeloTabla.addColumn("Fecha De Creación");
-            ModeloTabla.addColumn("Tipo");
-            ModeloTabla.addColumn("Prioridad");
             ModeloTabla.addColumn("Area");
             ModeloTabla.addColumn("Estado");
-            ModeloTabla.addColumn("Correo");
             ModeloTabla.addColumn("Solucion");
+
+            ResultSetMetaData rsMD = rs.getMetaData();
+            int CantidadColumnas = rsMD.getColumnCount();
+
+            while (rs.next()) {
+                Object fila[] = new Object[CantidadColumnas];
+
+                for (int i = 0; i < CantidadColumnas; i++) {
+                    fila[i] = rs.getObject(i + 1);
+                }
+
+                ModeloTabla.addRow(fila);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error" + e);
+        }
+    }
+
+    //Funcion para mostrar datos en el JTable
+    public void MostrarAvances(JTable TablaAvances, VistaAvances VistaAvances) {
+        DefaultTableModel ModeloTabla = new DefaultTableModel();
+        TablaAvances.setModel(ModeloTabla);
+
+        try {
+            ps = conexion.prepareStatement("SELECT * FROM TablaAvances WHERE idProblema = " + VistaAvances.TxtIDAvance.getText() + " ORDER BY idAvances ASC");
+            rs = ps.executeQuery();
+
+            ModeloTabla.addColumn("idAvance");
+            ModeloTabla.addColumn("idProblema");
+            ModeloTabla.addColumn("Avance");
+            ModeloTabla.addColumn("Fecha De Avance");
+            ModeloTabla.addColumn("Estado");
 
             ResultSetMetaData rsMD = rs.getMetaData();
             int CantidadColumnas = rsMD.getColumnCount();
@@ -136,6 +201,48 @@ public class ConsultasProblema {
 
             ps = conexion.prepareStatement("UPDATE Soluciones SET Solucion = ? WHERE idSolucion = " + VistaTicket.TxtIDSolucion.getText() + "");
             ps.setString(1, ModeloS.getSolucion());
+
+            System.out.println("\nModificado Exitoso:");
+            System.out.println(ps);
+
+            int Resultado = ps.executeUpdate();
+            return Resultado > 0;
+
+        } catch (SQLException ex) {
+            System.out.println("Error" + ex);
+            return false;
+        }
+    }
+
+    public boolean InsertarAvance(ModeloAvances ModeloA, VistaTicket VistaTicket, ModeloProblema Modelo) {
+        try {
+
+            ps = conexion.prepareStatement("UPDATE Avances SET Avance = ? WHERE idAvances = " + VistaTicket.TxtIDAvance.getText() + "");
+            ps.setString(1, VistaTicket.TxtAvance.getText());
+
+            System.out.println("\nModificado Exitoso:");
+            System.out.println(ps);
+
+            int Resultado = ps.executeUpdate();
+            return Resultado > 0;
+
+        } catch (SQLException ex) {
+            System.out.println("Error" + ex);
+            return false;
+        }
+    }
+
+    public boolean ListarAvances(ModeloAvances ModeloA, VistaTicket VistaTicket, ModeloProblema Modelo) {
+        try {
+            int idAvances = con.AutoIncrementA() + 1;
+            int idAvancesS = idAvances;
+            int idEstado = VistaTicket.JCEstadoTicket.getSelectedIndex();
+            ps = conexion.prepareStatement("INSERT INTO Avances (idAvances, Avance, idAvanceProb, FechaAvance, RefEstado) "
+                    + "\nSELECT * FROM (SELECT " + idAvances + "," + "?" + "," + "?" + "," + "CURRENT_TIMESTAMP" + "," + idEstado + ") AS TMP "
+                    + "\nWHERE NOT EXISTS(SELECT idAvances FROM Avances WHERE idAvances = " + idAvancesS + ") "
+                    + "\nLIMIT 1");
+            ps.setString(1, VistaTicket.TxtAvance.getText());
+            ps.setString(2, VistaTicket.TxtIDAvance.getText());
 
             System.out.println("\nModificado Exitoso:");
             System.out.println(ps);

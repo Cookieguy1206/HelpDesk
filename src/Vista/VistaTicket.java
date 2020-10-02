@@ -79,6 +79,10 @@ public class VistaTicket extends javax.swing.JFrame {
         TxtSolucion = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         TxtIDSolucion = new javax.swing.JTextField();
+        TxtIDAvance = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        TxtAvance = new javax.swing.JTextArea();
         JMenuBar = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -183,6 +187,12 @@ public class VistaTicket extends javax.swing.JFrame {
 
         jLabel1.setText("Solucion");
 
+        jLabel4.setText("Avance");
+
+        TxtAvance.setColumns(20);
+        TxtAvance.setRows(5);
+        jScrollPane3.setViewportView(TxtAvance);
+
         javax.swing.GroupLayout PanelSolucionLayout = new javax.swing.GroupLayout(PanelSolucion);
         PanelSolucion.setLayout(PanelSolucionLayout);
         PanelSolucionLayout.setHorizontalGroup(
@@ -190,21 +200,33 @@ public class VistaTicket extends javax.swing.JFrame {
             .addGroup(PanelSolucionLayout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(PanelSolucionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 718, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(PanelSolucionLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(TxtIDAvance, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(22, 22, 22)
+                        .addComponent(TxtIDSolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 718, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
                     .addComponent(jLabel1)
-                    .addComponent(TxtIDSolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 718, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(38, Short.MAX_VALUE))
         );
         PanelSolucionLayout.setVerticalGroup(
             PanelSolucionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelSolucionLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(TxtIDSolucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addGap(20, 20, 20)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(170, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(PanelSolucionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TxtIDSolucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TxtIDAvance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Solucion", PanelSolucion);
@@ -215,7 +237,7 @@ public class VistaTicket extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 784, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -261,19 +283,23 @@ public class VistaTicket extends javax.swing.JFrame {
     public javax.swing.JMenuBar JMenuBar;
     private javax.swing.JPanel PanelSolucion;
     private javax.swing.JPanel PanelTicket;
+    public javax.swing.JTextArea TxtAvance;
     public javax.swing.JTextField TxtCorreoTicket;
     public javax.swing.JTextPane TxtDescripcion;
+    public javax.swing.JTextField TxtIDAvance;
     public javax.swing.JTextField TxtIDSolucion;
     public javax.swing.JTextField TxtIDTicket;
     public javax.swing.JTextArea TxtSolucion;
     private javax.swing.JLabel jLabel1;
     public javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel4;
     public javax.swing.JLabel jLabel6;
     public javax.swing.JLabel jLabel7;
     public javax.swing.JLabel jLabel8;
     public javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
 }
