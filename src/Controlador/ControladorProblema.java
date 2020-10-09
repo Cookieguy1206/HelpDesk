@@ -1,5 +1,7 @@
 package Controlador;
 
+import Conexion.Conexion;
+import Conexion.RecibirEmail;
 import Modelo.ConsultasProblema;
 import Modelo.ModeloAvances;
 import Modelo.ModeloPersona;
@@ -11,7 +13,11 @@ import Vista.VerProblema;
 import Vista.VistaAvances;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import javax.mail.MessagingException;
 import javax.swing.JOptionPane;
 
 public class ControladorProblema implements ActionListener {
@@ -25,8 +31,9 @@ public class ControladorProblema implements ActionListener {
     private final ModeloSolucion ModeloS;
     private final ModeloAvances ModeloA;
     private final ConsultasProblema Problema;
+    private final RecibirEmail RecibirEmail;
 
-    public ControladorProblema(AñadirProblema AñadirProblema, VerProblema VistaProblema, VistaTicket VistaTicket, VistaAvances VistaAvances, ModeloProblema Modelo, ModeloPersona ModeloP, ModeloSolucion ModeloS, ModeloAvances ModeloA, ConsultasProblema Problema) {
+    public ControladorProblema(AñadirProblema AñadirProblema, VerProblema VistaProblema, VistaTicket VistaTicket, VistaAvances VistaAvances, ModeloProblema Modelo, ModeloPersona ModeloP, ModeloSolucion ModeloS, ModeloAvances ModeloA, ConsultasProblema Problema, RecibirEmail RecibirEmail) {
         this.AñadirProblema = AñadirProblema;
         this.VistaProblema = VistaProblema;
         this.VistaTicket = VistaTicket;
@@ -36,6 +43,7 @@ public class ControladorProblema implements ActionListener {
         this.ModeloS = ModeloS;
         this.ModeloA = ModeloA;
         this.Problema = Problema;
+        this.RecibirEmail = RecibirEmail;
         AñadirProblema.BtnEnviar.addActionListener(this);
         AñadirProblema.BtnCancelar.addActionListener(this);
         AñadirProblema.BtnVerProb.addActionListener(this);
@@ -48,15 +56,15 @@ public class ControladorProblema implements ActionListener {
         VistaAvances.BtnCerrar.addActionListener(this);
     }
 
-    public void Iniciar() throws SQLException {
+    public void Iniciar() throws SQLException, MessagingException, IOException {
         AñadirProblema.setTitle("Añadir Problema");
         AñadirProblema.setLocationRelativeTo(null);
         AñadirProblema.setVisible(true);
         AñadirProblema.TxtID.setVisible(false);
         AñadirProblema.TxtFecha.setVisible(false);
         AñadirProblema.TxtCorreo.setEnabled(false);
-        AñadirProblema.JCSubTipoSol.setEnabled(false);
-        AñadirProblema.JCSubSubTipo.setEnabled(false);
+        //AñadirProblema.JCSubTipoSol.setEnabled(false);
+        //AñadirProblema.JCSubSubTipo.setEnabled(false);
         VistaProblema.setTitle("Problemas");
         VistaProblema.setLocationRelativeTo(null);
         VistaProblema.setVisible(false);
@@ -66,12 +74,17 @@ public class ControladorProblema implements ActionListener {
         VistaAvances.setTitle("Avances");
         VistaAvances.setLocationRelativeTo(null);
         VistaAvances.setVisible(false);
-        //VistaTicket.TxtIDSolucion.setVisible(false);
+        VistaTicket.TxtIDSolucion.setVisible(false);
         VistaTicket.TxtCorreoTicket.setEnabled(false);
-        //VistaTicket.TxtIDAvance.setVisible(false);
+        VistaTicket.TxtIDAvance.setVisible(false);
         Problema.Mostrar(VistaProblema.JTablaProblema);
         Problema.IniciarTrigger(Modelo);
-        //Problema.IniciarTrigger2(Modelo, ModeloA);
+        RecibirEmail.RecibirEmail();
+        System.out.println("\nVariable Correo: " + RecibirEmail.Correo);
+        System.out.println("Variable Asunto: " + RecibirEmail.Sujeto);
+        System.out.println("Variable Contenido: " + RecibirEmail.Contenido + "\n");
+        InsertarCorreo();
+        InsertarContenido();
     }
 
     @Override
@@ -114,7 +127,7 @@ public class ControladorProblema implements ActionListener {
             VistaProblema.setVisible(true);
             VistaTicket.setVisible(false);
         }
-        
+
         if (e.getSource() == VistaAvances.BtnCerrar) {
             VistaAvances.setVisible(false);
         }
@@ -204,5 +217,66 @@ public class ControladorProblema implements ActionListener {
         AñadirProblema.JCTipoSolicitud.setSelectedIndex(0);
         AñadirProblema.JCArea.setSelectedIndex(0);
         AñadirProblema.JCPrioridad.setSelectedIndex(0);
+    }
+
+    //Insertar correo a la BD
+    public boolean InsertarCorreo() {
+        try {
+            Conexion con = new Conexion();
+            Connection conexion;
+            conexion = con.getConnection();
+            int idPersona = con.AutoIncrementP();
+
+            PreparedStatement ps = conexion.prepareStatement("INSERT INTO persona(idPersona, CorreoPersona) "
+                    + "VALUES(" + idPersona + "," + "?" + ")");
+            ps.setString(1, RecibirEmail.getCorreo());
+
+            System.out.println(ps);
+
+            System.out.println("\nVariable Correo: " + RecibirEmail.getCorreo() + "\n");
+
+            int Resultado = ps.executeUpdate();
+            return Resultado > 0;
+
+        } catch (SQLException ex) {
+            System.out.println("Error" + ex + "\n");
+            return false;
+        }
+    }
+
+    //Insertar correo a la BD
+    public boolean InsertarContenido() {
+        try {
+            Conexion con = new Conexion();
+            Connection conexion;
+            conexion = con.getConnection();
+            int idProblema = con.AutoIncrement();
+            int idSolucion = con.AutoIncrementS();
+            int idAvances = con.AutoIncrementA();
+            int idPrioridad = AñadirProblema.JCPrioridad.getSelectedIndex();
+            int idAreaProb = AñadirProblema.JCArea.getSelectedIndex();
+            int idTipoProb = AñadirProblema.JCTipoSolicitud.getSelectedIndex();
+            int idEstado = VistaTicket.JCEstadoTicket.getSelectedIndex();
+
+            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Problema(idProblema, NombreProb, DetalleProb, FechaCreacion, "
+                    + "RefIdPrioridad, RefAreaProb, RefTipoProb, RefEstado, RefSolucion, RefAvances) "
+                    + "VALUES(" + idProblema + ",?, ?, CURRENT_TIMESTAMP," + idPrioridad + "," + idAreaProb + "," + idTipoProb + "," + idEstado + "," + idSolucion + "," + idAvances + ")");
+            ps.setString(1, RecibirEmail.getSujeto());
+            ps.setString(2, RecibirEmail.getContenido());
+
+            System.out.println(ps);
+            
+            System.out.println("\nVariable Asunto: " + RecibirEmail.getSujeto());
+            System.out.println("Variable Contenido: " + RecibirEmail.getContenido() + "\n");
+            
+            
+
+            int Resultado = ps.executeUpdate();
+            return Resultado > 0;
+
+        } catch (SQLException ex) {
+            System.out.println("Error" + ex + "\n");
+            return false;
+        }
     }
 }

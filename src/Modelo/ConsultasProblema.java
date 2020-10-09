@@ -1,6 +1,7 @@
 package Modelo;
 
 import Conexion.Conexion;
+import Conexion.RecibirEmail;
 import Vista.AñadirProblema;
 import Vista.VerProblema;
 import Vista.VistaAvances;
@@ -21,6 +22,7 @@ public class ConsultasProblema {
     VerProblema VistaProblema = new VerProblema();
     VistaTicket VistaTicket = new VistaTicket();
     VistaAvances VistaAvances = new VistaAvances();
+    RecibirEmail RecibirEmail = new RecibirEmail();
     Conexion con = new Conexion();
     Connection conexion;
 
@@ -56,19 +58,7 @@ public class ConsultasProblema {
         }
     }
 
-    /*public void ForeignKeys() {
-    try {
-    ps = conexion.prepareStatement("SET FOREIGN_KEY_CHECKS = 0");
-    
-    System.out.println(ps);
-    
-    ps.executeQuery();
-    
-    } catch (SQLException ex) {
-    System.out.println(ex);
-    }
-    }*/
-    //Iniciar Trigger
+    //Iniciar trigger
     public boolean IniciarTrigger(ModeloProblema Modelo) {
         try {
             ps = conexion.prepareStatement("CREATE TRIGGER Audit_Prob_Sol AFTER INSERT ON Problema "
@@ -82,31 +72,11 @@ public class ConsultasProblema {
             return Resultado > 0;
 
         } catch (SQLException ex) {
-            System.out.println(ex);
+            System.out.println(ex + "\n");
             return false;
         }
     }
 
-    //Iniciar Trigger
-    /*public boolean IniciarTrigger2(ModeloProblema Modelo, ModeloAvances ModeloA) {
-        try {
-            ps = conexion.prepareStatement("CREATE TRIGGER Audit_Avances AFTER INSERT ON Problema "
-                    + "FOR EACH ROW "
-                    + "INSERT INTO Avances(idAvances, idAvanceProb, Avance, FechaAvance, RefEstado) VALUES (NEW.RefAvances = ?, NEW.idProblema = ?, '', CURRENT_TIMESTAMP, NEW.RefEstado = ?)");
-            ps.setInt(1, Modelo.getRefAvances());
-            ps.setInt(2, Modelo.getIdProblema());
-            ps.setInt(3, Modelo.getRefEstado());
-
-            System.out.println(ps);
-
-            int Resultado = ps.executeUpdate();
-            return Resultado > 0;
-
-        } catch (SQLException ex) {
-            System.out.println(ex);
-            return false;
-        }
-    }*/
     //Funcion para mostrar datos en el JTable
     public void Mostrar(JTable TablaProblema) {
         DefaultTableModel ModeloTabla = new DefaultTableModel();
@@ -214,6 +184,7 @@ public class ConsultasProblema {
         }
     }
 
+    //Insertar Avance
     public boolean InsertarAvance(ModeloAvances ModeloA, VistaTicket VistaTicket, ModeloProblema Modelo) {
         try {
 
@@ -232,9 +203,10 @@ public class ConsultasProblema {
         }
     }
 
+    //Listar Avances
     public boolean ListarAvances(ModeloAvances ModeloA, VistaTicket VistaTicket, ModeloProblema Modelo) {
         try {
-            int idAvances = con.AutoIncrementA() + 1;
+            int idAvances = con.AutoIncrementA() + 2;
             int idAvancesS = idAvances;
             int idEstado = VistaTicket.JCEstadoTicket.getSelectedIndex();
             ps = conexion.prepareStatement("INSERT INTO Avances (idAvances, Avance, idAvanceProb, FechaAvance, RefEstado) "
@@ -253,6 +225,21 @@ public class ConsultasProblema {
         } catch (SQLException ex) {
             System.out.println("Error" + ex);
             return false;
+        }
+    }
+
+    //Apariencia para la interfaz gráfica
+    public void Estetica() {
+        //Diseño para que se vea más bonita la vista
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(AñadirProblema.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
 }

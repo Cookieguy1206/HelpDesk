@@ -72,4 +72,19 @@ public class Conexion {
         }
         return id;
     }
+
+    public int AutoIncrementP() {
+        int id = 1;
+        try {
+            ps = getConnection().prepareStatement("SELECT MAX(idPersona) FROM Persona");
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                id = rs.getInt(1) + 1;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error" + ex);
+        }
+        return id;
+    }
 }

@@ -31,6 +31,10 @@ SELECT * FROM Prioridad;
 
 SELECT * FROM TipoProb;
 
+SELECT * FROM STipoProb;
+
+SELECT * FROM SSTipoProb;
+
 SELECT * FROM Avances;
 
 SELECT * FROM Estado;

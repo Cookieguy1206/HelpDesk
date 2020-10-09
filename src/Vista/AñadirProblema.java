@@ -18,6 +18,8 @@ public class AñadirProblema extends javax.swing.JFrame {
     public AñadirProblema() throws SQLException {
         initComponents();
         CargarTipo();
+        CargarSubTipo();
+        CargarSubSubTipo();
         CargarArea();
         CargarPrioridad();
         System.out.println("Conexion Exitosa");
@@ -31,6 +33,38 @@ public class AñadirProblema extends javax.swing.JFrame {
 
             while (rs.next()) {
                 JCTipoSolicitud.addItem(rs.getString("TipoProb"));
+            }
+
+            rs.close();
+
+        } catch (SQLException ex) {
+            System.out.println("Error" + ex);
+        }
+    }
+    
+        public void CargarSubTipo() throws SQLException {
+        try {
+            ps = conexion.prepareStatement("SELECT * FROM STipoProb");
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                JCSubTipoSol.addItem(rs.getString("STipoProb"));
+            }
+
+            rs.close();
+
+        } catch (SQLException ex) {
+            System.out.println("Error" + ex);
+        }
+    }
+        
+            public void CargarSubSubTipo() throws SQLException {
+        try {
+            ps = conexion.prepareStatement("SELECT * FROM SSTipoProb");
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                JCSubSubTipo.addItem(rs.getString("SSTipoProb"));
             }
 
             rs.close();
