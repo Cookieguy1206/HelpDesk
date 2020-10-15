@@ -1,9 +1,8 @@
 package Controlador;
 
-import Conexion.Conexion;
-import Conexion.RecibirEmail;
 import Modelo.ConsultasProblema;
 import Modelo.ModeloAvances;
+import Modelo.ModeloCorreo;
 import Modelo.ModeloPersona;
 import Modelo.ModeloProblema;
 import Modelo.ModeloSolucion;
@@ -14,8 +13,6 @@ import Vista.VistaAvances;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.mail.MessagingException;
 import javax.swing.JOptionPane;
@@ -30,10 +27,11 @@ public class ControladorProblema implements ActionListener {
     private final ModeloPersona ModeloP;
     private final ModeloSolucion ModeloS;
     private final ModeloAvances ModeloA;
+    private final ModeloCorreo ModeloC;
     private final ConsultasProblema Problema;
-    private final RecibirEmail RecibirEmail;
+    private final ControladorRecibirEmail RecEm;
 
-    public ControladorProblema(AñadirProblema AñadirProblema, VerProblema VistaProblema, VistaTicket VistaTicket, VistaAvances VistaAvances, ModeloProblema Modelo, ModeloPersona ModeloP, ModeloSolucion ModeloS, ModeloAvances ModeloA, ConsultasProblema Problema, RecibirEmail RecibirEmail) {
+    public ControladorProblema(AñadirProblema AñadirProblema, VerProblema VistaProblema, VistaTicket VistaTicket, VistaAvances VistaAvances, ModeloProblema Modelo, ModeloPersona ModeloP, ModeloSolucion ModeloS, ModeloAvances ModeloA, ModeloCorreo ModeloC, ConsultasProblema Problema, ControladorRecibirEmail RecEm) {
         this.AñadirProblema = AñadirProblema;
         this.VistaProblema = VistaProblema;
         this.VistaTicket = VistaTicket;
@@ -42,8 +40,9 @@ public class ControladorProblema implements ActionListener {
         this.ModeloP = ModeloP;
         this.ModeloS = ModeloS;
         this.ModeloA = ModeloA;
+        this.ModeloC = ModeloC;
         this.Problema = Problema;
-        this.RecibirEmail = RecibirEmail;
+        this.RecEm = RecEm;
         AñadirProblema.BtnEnviar.addActionListener(this);
         AñadirProblema.BtnCancelar.addActionListener(this);
         AñadirProblema.BtnVerProb.addActionListener(this);
@@ -79,12 +78,9 @@ public class ControladorProblema implements ActionListener {
         VistaTicket.TxtIDAvance.setVisible(false);
         Problema.Mostrar(VistaProblema.JTablaProblema);
         Problema.IniciarTrigger(Modelo);
-        RecibirEmail.RecibirEmail();
-        System.out.println("\nVariable Correo: " + RecibirEmail.Correo);
-        System.out.println("Variable Asunto: " + RecibirEmail.Sujeto);
-        System.out.println("Variable Contenido: " + RecibirEmail.Contenido + "\n");
-        InsertarCorreo();
-        InsertarContenido();
+        RecEm.RecibirEmail();
+        //RecEm.InsertarCorreo();
+        //InsertarContenido(Modelo);
     }
 
     @Override
@@ -217,66 +213,5 @@ public class ControladorProblema implements ActionListener {
         AñadirProblema.JCTipoSolicitud.setSelectedIndex(0);
         AñadirProblema.JCArea.setSelectedIndex(0);
         AñadirProblema.JCPrioridad.setSelectedIndex(0);
-    }
-
-    //Insertar correo a la BD
-    public boolean InsertarCorreo() {
-        try {
-            Conexion con = new Conexion();
-            Connection conexion;
-            conexion = con.getConnection();
-            int idPersona = con.AutoIncrementP();
-
-            PreparedStatement ps = conexion.prepareStatement("INSERT INTO persona(idPersona, CorreoPersona) "
-                    + "VALUES(" + idPersona + "," + "?" + ")");
-            ps.setString(1, RecibirEmail.getCorreo());
-
-            System.out.println(ps);
-
-            System.out.println("\nVariable Correo: " + RecibirEmail.getCorreo() + "\n");
-
-            int Resultado = ps.executeUpdate();
-            return Resultado > 0;
-
-        } catch (SQLException ex) {
-            System.out.println("Error" + ex + "\n");
-            return false;
-        }
-    }
-
-    //Insertar correo a la BD
-    public boolean InsertarContenido() {
-        try {
-            Conexion con = new Conexion();
-            Connection conexion;
-            conexion = con.getConnection();
-            int idProblema = con.AutoIncrement();
-            int idSolucion = con.AutoIncrementS();
-            int idAvances = con.AutoIncrementA();
-            int idPrioridad = AñadirProblema.JCPrioridad.getSelectedIndex();
-            int idAreaProb = AñadirProblema.JCArea.getSelectedIndex();
-            int idTipoProb = AñadirProblema.JCTipoSolicitud.getSelectedIndex();
-            int idEstado = VistaTicket.JCEstadoTicket.getSelectedIndex();
-
-            PreparedStatement ps = conexion.prepareStatement("INSERT INTO Problema(idProblema, NombreProb, DetalleProb, FechaCreacion, "
-                    + "RefIdPrioridad, RefAreaProb, RefTipoProb, RefEstado, RefSolucion, RefAvances) "
-                    + "VALUES(" + idProblema + ",?, ?, CURRENT_TIMESTAMP," + idPrioridad + "," + idAreaProb + "," + idTipoProb + "," + idEstado + "," + idSolucion + "," + idAvances + ")");
-            ps.setString(1, RecibirEmail.getSujeto());
-            ps.setString(2, RecibirEmail.getContenido());
-
-            System.out.println(ps);
-            
-            System.out.println("\nVariable Asunto: " + RecibirEmail.getSujeto());
-            System.out.println("Variable Contenido: " + RecibirEmail.getContenido() + "\n");
-            
-            
-
-            int Resultado = ps.executeUpdate();
-            return Resultado > 0;
-
-        } catch (SQLException ex) {
-            System.out.println("Error" + ex + "\n");
-            return false;
-        }
     }
 }

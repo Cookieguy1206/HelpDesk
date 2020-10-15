@@ -16,6 +16,23 @@ public class ModeloProblema {
     private int RefSolucion;
     private int RefAvances;
 
+    public ModeloProblema() {
+    }
+
+    public ModeloProblema(int idProblema, String NombreProb, String DetalleProb, Date FechaCreacion, int RefIdPrioridad, int RefAreaProb, int RefTipoProb, int RefEstado, int RefPersona, int RefSolucion, int RefAvances) {
+        this.idProblema = idProblema;
+        this.NombreProb = NombreProb;
+        this.DetalleProb = DetalleProb;
+        this.FechaCreacion = FechaCreacion;
+        this.RefIdPrioridad = RefIdPrioridad;
+        this.RefAreaProb = RefAreaProb;
+        this.RefTipoProb = RefTipoProb;
+        this.RefEstado = RefEstado;
+        this.RefPersona = RefPersona;
+        this.RefSolucion = RefSolucion;
+        this.RefAvances = RefAvances;
+    }
+    
     public int getIdProblema() {
         return idProblema;
     }

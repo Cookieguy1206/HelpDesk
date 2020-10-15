@@ -1,7 +1,7 @@
 package Modelo;
 
 import Conexion.Conexion;
-import Conexion.RecibirEmail;
+import Controlador.ControladorRecibirEmail;
 import Vista.AñadirProblema;
 import Vista.VerProblema;
 import Vista.VistaAvances;
@@ -22,7 +22,7 @@ public class ConsultasProblema {
     VerProblema VistaProblema = new VerProblema();
     VistaTicket VistaTicket = new VistaTicket();
     VistaAvances VistaAvances = new VistaAvances();
-    RecibirEmail RecibirEmail = new RecibirEmail();
+    ControladorRecibirEmail RecibirEmail = new ControladorRecibirEmail();
     Conexion con = new Conexion();
     Connection conexion;
 

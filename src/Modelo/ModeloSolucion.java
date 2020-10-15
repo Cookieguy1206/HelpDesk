@@ -5,6 +5,14 @@ public class ModeloSolucion {
     private int idSolucion;
     private String Solucion;
 
+    public ModeloSolucion() {
+    }
+
+    public ModeloSolucion(int idSolucion, String Solucion) {
+        this.idSolucion = idSolucion;
+        this.Solucion = Solucion;
+    }
+
     public int getIdSolucion() {
         return idSolucion;
     }

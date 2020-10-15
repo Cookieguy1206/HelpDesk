@@ -10,6 +10,17 @@ public class ModeloAvances {
     private Date FechaAvance;
     private int RefEstado;
 
+    public ModeloAvances() {
+    }
+
+    public ModeloAvances(int idAvances, int idAvanceProb, String Avance, Date FechaAvance, int RefEstado) {
+        this.idAvances = idAvances;
+        this.idAvanceProb = idAvanceProb;
+        this.Avance = Avance;
+        this.FechaAvance = FechaAvance;
+        this.RefEstado = RefEstado;
+    }
+
     public int getIdAvances() {
         return idAvances;
     }
