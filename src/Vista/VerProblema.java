@@ -21,8 +21,8 @@ public class VerProblema extends javax.swing.JFrame {
 
     //Al escribir en el JTextField se buscará lo deseado
     public void Buscar(String Buscar) throws SQLException {
-        String[] Columnas = {"Tiket", "Nombre", "Detalle", "Fecha De Creacion", "Estado", "Solucion", "Area"};
-        String[] Registros = new String[7];
+        String[] Columnas = {"Tiket", "Correo", "Nombre", "Detalle", "Fecha De Creacion", "Estado", "Solucion", "Area"};
+        String[] Registros = new String[8];
 
         DefaultTableModel ModeloTabla = new DefaultTableModel(null, Columnas);
 
@@ -55,12 +55,13 @@ public class VerProblema extends javax.swing.JFrame {
 
             while (rs.next()) {
                 Registros[0] = rs.getString("idProblema");
-                Registros[1] = rs.getString("NombreProb");
-                Registros[2] = rs.getString("DetalleProb");
-                Registros[3] = rs.getString("FechaCreacion");
-                Registros[4] = rs.getString("Estado");
-                Registros[5] = rs.getString("Solucion");
-                Registros[6] = rs.getString("Area");
+                Registros[1] = rs.getString("CorreoPersona");
+                Registros[2] = rs.getString("NombreProb");
+                Registros[3] = rs.getString("DetalleProb");
+                Registros[4] = rs.getString("FechaCreacion");
+                Registros[5] = rs.getString("Estado");
+                Registros[6] = rs.getString("Solucion");
+                Registros[7] = rs.getString("Areaprob");
 
                 ModeloTabla.addRow(Registros);
             }

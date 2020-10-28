@@ -23,8 +23,6 @@ UPDATE `helpdesk`.`Prioridad` SET `idPrioridad` = '2', `Prioridad` = 'Media' WHE
 
 DROP INDEX idPersona_FK_idx ON Problema;
 
-SELECT * FROM Problema;
-
 SELECT * FROM AreaProb;
 
 SELECT * FROM Prioridad;
@@ -35,11 +33,13 @@ SELECT * FROM STipoProb;
 
 SELECT * FROM SSTipoProb;
 
-SELECT * FROM Avances;
-
 SELECT * FROM Estado;
 
+SELECT * FROM Problema;
+
 SELECT * FROM Persona;
+
+SELECT * FROM Avances;
 
 SELECT * FROM Soluciones;
 
@@ -57,12 +57,15 @@ INSERT INTO Avances(idAvances, idAvanceProb, Avance, FechaAvance, RefEstado) VAL
 
 DROP TRIGGER Audit_Prob_Sol;
 DROP TRIGGER Audit_Avances;
+DROP VIEW TablaProblema;
 
-SELECT P.idProblema, P.NombreProb, P.DetalleProb, P.FechaCreacion, AP.AreaProb, ES.Estado, SO.Solucion FROM Problema AS P
+CREATE VIEW TablaProblema AS
+SELECT P.idProblema, PR.CorreoPersona, P.NombreProb, P.DetalleProb, P.FechaCreacion, AP.AreaProb, ES.Estado, SO.Solucion FROM Problema AS P
 INNER JOIN Estado AS ES ON P.RefEstado = ES.idEstado
 INNER JOIN Persona AS PE ON P.RefPersona = PE.idPersona
 INNER JOIN AreaProb AS AP ON P.RefAreaProb = AP.idAreaProb
-INNER JOIN Soluciones AS SO ON P.RefSolucion = SO.idSolucion;
+INNER JOIN Soluciones AS SO ON P.RefSolucion = SO.idSolucion
+INNER JOIN Persona AS PR ON P.RefPersona = PR.idPersona;
 
 SELECT AV.idAvances, P.idProblema, AV.Avance, AV.FechaAvance, ES.Estado FROM Avances AS AV
 INNER JOIN Problema AS P ON AV.idAvanceProb = P.idProblema

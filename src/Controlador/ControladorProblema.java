@@ -27,7 +27,6 @@ public class ControladorProblema implements ActionListener {
     private final ModeloPersona ModeloP;
     private final ModeloSolucion ModeloS;
     private final ModeloAvances ModeloA;
-    private final ModeloCorreo ModeloC;
     private final ConsultasProblema Problema;
     private final ControladorRecibirEmail RecEm;
 
@@ -40,7 +39,6 @@ public class ControladorProblema implements ActionListener {
         this.ModeloP = ModeloP;
         this.ModeloS = ModeloS;
         this.ModeloA = ModeloA;
-        this.ModeloC = ModeloC;
         this.Problema = Problema;
         this.RecEm = RecEm;
         AñadirProblema.BtnEnviar.addActionListener(this);
@@ -79,8 +77,6 @@ public class ControladorProblema implements ActionListener {
         Problema.Mostrar(VistaProblema.JTablaProblema);
         Problema.IniciarTrigger(Modelo);
         RecEm.RecibirEmail();
-        //RecEm.InsertarCorreo();
-        //InsertarContenido(Modelo);
     }
 
     @Override
@@ -131,18 +127,20 @@ public class ControladorProblema implements ActionListener {
         if (e.getSource() == VistaProblema.JMenuVer) {
             VistaProblema.setVisible(false);
             VistaTicket.setVisible(true);
+            Limpiar2();
 
             int SelectedRow = VistaProblema.JTablaProblema.getSelectedRow();
             int NumSelectedRow = VistaProblema.JTablaProblema.getSelectedRowCount();
 
             if (SelectedRow >= 0 && NumSelectedRow == 1) {
                 VistaTicket.TxtIDTicket.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 0).toString());
-                VistaTicket.JCEstadoTicket.setSelectedItem(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 5).toString());
-                VistaTicket.TxtDescripcion.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 2).toString());
                 VistaTicket.TxtIDSolucion.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 0).toString());
                 VistaTicket.TxtIDAvance.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 0).toString());
-                VistaTicket.TxtSolucion.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 6).toString());
-                VistaTicket.JCAreaTicket.setSelectedItem(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 4).toString());
+                VistaTicket.TxtCorreoTicket.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 1).toString());
+                VistaTicket.TxtDescripcion.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 3).toString());
+                VistaTicket.JCAreaTicket.setSelectedItem(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 5).toString());
+                VistaTicket.JCEstadoTicket.setSelectedItem(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 6).toString());
+                VistaTicket.TxtSolucion.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 7).toString());
 
                 VistaTicket.TxtIDTicket.setEditable(false);
                 VistaTicket.JCAreaTicket.setEnabled(false);
@@ -213,5 +211,9 @@ public class ControladorProblema implements ActionListener {
         AñadirProblema.JCTipoSolicitud.setSelectedIndex(0);
         AñadirProblema.JCArea.setSelectedIndex(0);
         AñadirProblema.JCPrioridad.setSelectedIndex(0);
+    }
+    
+    public void Limpiar2() {
+        VistaTicket.TxtAvance.setText(null);
     }
 }

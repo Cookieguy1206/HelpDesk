@@ -1,6 +1,7 @@
 package Controlador;
 
 import Conexion.Conexion;
+import Modelo.ConsultasProblema;
 import Modelo.ModeloCorreo;
 import Vista.AñadirProblema;
 import Vista.VistaTicket;
@@ -24,9 +25,11 @@ public class ControladorRecibirEmail {
     public String Correo;
     public String Sujeto;
     public String Contenido;
+    public int idPersona;
 
     public ArrayList<ModeloCorreo> RecibirEmail() throws MessagingException, IOException, SQLException {
 
+        ConsultasProblema Problema = new ConsultasProblema();
         ArrayList listaCorreos = new ArrayList();
         Properties p = new Properties();
         p.setProperty("mail.store.protocol", "imaps");
@@ -51,8 +54,12 @@ public class ControladorRecibirEmail {
             for (Address address : in) {
                 ModeloCorreo.setCorreo(address.toString());
                 Correo = ModeloCorreo.getCorreo();
-                System.out.println("TIENES EL SIGUIENTE MENSAJE:");
-                System.out.println("DE: " + Correo + "");
+                /*System.out.println("TIENES EL SIGUIENTE MENSAJE:");
+                System.out.println("DE: " + Correo + "");*/
+
+                for (idPersona = 1; idPersona < mensajes.length; idPersona++) {
+
+                }
             }
             Multipart mp = (Multipart) m.getContent();
             ModeloCorreo.setMp(mp);
@@ -65,50 +72,52 @@ public class ControladorRecibirEmail {
             Sujeto = ModeloCorreo.getSujeto();
             Contenido = ModeloCorreo.getContenido();
 
-            System.out.println("FECHA DE ENVIO: " + m.getSentDate());
+            /*System.out.println("FECHA DE ENVIO: " + m.getSentDate());
             System.out.println("ASUNTO: " + Sujeto);
-            System.out.println("CONTENUDO: " + Contenido);
-
-            InsertarCorreo();
-            InsertarContenido();
+            System.out.println("CONTENUDO: " + Contenido);*/
+            if (Problema.BuscaRepetido(ModeloCorreo.getCorreo()) == 0) {
+                System.out.println("No existe: Agregando...");
+                InsertarCorreo();
+                InsertarContenido();
+            } else {
+                System.out.println("Correo " + ModeloCorreo.getCorreo() + " Existe\n");
+            }
         }
         return listaCorreos;
     }
 
     //Insertar correo a la BD
-    public boolean InsertarCorreo() {
+    public void InsertarCorreo() {
         try {
             Conexion con = new Conexion();
             Connection conexion;
             conexion = con.getConnection();
-            int idPersona = con.AutoIncrementP();
+            idPersona = con.AutoIncrementP();
 
             PreparedStatement ps = conexion.prepareStatement("INSERT INTO persona(idPersona, CorreoPersona) "
                     + "VALUES(" + idPersona + "," + "?" + ")");
-            ps.setString(1, Sujeto);
+            ps.setString(1, Correo);
 
-            System.out.println(ps);
+            System.out.println("\n" + ps);
 
-            System.out.println("\nVariable Correo: " + Sujeto + "\n");
-
-            int Resultado = ps.executeUpdate();
-            return Resultado > 0;
+            //System.out.println("\nVariable Correo: " + Correo + "\n");
+            ps.executeUpdate();
 
         } catch (SQLException ex) {
             System.out.println("Error" + ex + "\n");
-            return false;
         }
     }
 
     //Insertar contenido a la BD
-    public boolean InsertarContenido() {
+    public void InsertarContenido() {
         try {
             AñadirProblema AñadirProblema = new AñadirProblema();
             VistaTicket VistaTicket = new VistaTicket();
             Conexion con = new Conexion();
             Connection conexion;
             conexion = con.getConnection();
-            int idProblema = con.AutoIncrement();
+            int idProblemaR = con.AutoIncrement() + 1;
+            int idProblema = idProblemaR;
             int idSolucion = con.AutoIncrementS();
             int idAvances = con.AutoIncrementA();
             int idPrioridad = AñadirProblema.JCPrioridad.getSelectedIndex();
@@ -117,22 +126,19 @@ public class ControladorRecibirEmail {
             int idEstado = VistaTicket.JCEstadoTicket.getSelectedIndex();
 
             PreparedStatement ps = conexion.prepareStatement("INSERT INTO Problema(idProblema, NombreProb, DetalleProb, FechaCreacion, "
-                    + "RefIdPrioridad, RefAreaProb, RefTipoProb, RefEstado, RefSolucion, RefAvances) "
-                    + "VALUES(" + idProblema + ",?, ?, CURRENT_TIMESTAMP," + idPrioridad + "," + idAreaProb + "," + idTipoProb + "," + idEstado + "," + idSolucion + "," + idAvances + ")");
+                    + "RefIdPrioridad, RefAreaProb, RefTipoProb, RefEstado, RefPersona, RefSolucion, RefAvances) "
+                    + "VALUES(" + idProblema + ",?, ?, CURRENT_TIMESTAMP," + idPrioridad + "," + idAreaProb + "," + idTipoProb + "," + idEstado + "," + idPersona + "," + idSolucion + "," + idAvances + ")");
             ps.setString(1, Sujeto);
             ps.setString(2, Contenido);
 
-            System.out.println(ps);
+            System.out.println("\n" + ps);
 
-            System.out.println("\nVariable Asunto: " + Sujeto);
-            System.out.println("Variable Contenido: " + Contenido + "\n");
-
-            int Resultado = ps.executeUpdate();
-            return Resultado > 0;
+            //System.out.println("\nVariable Asunto: " + Sujeto);
+            //System.out.println("Variable Contenido: " + Contenido + "\n");
+            ps.executeUpdate();
 
         } catch (SQLException ex) {
             System.out.println("Error" + ex + "\n");
-            return false;
         }
     }
 }

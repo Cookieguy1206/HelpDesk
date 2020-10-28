@@ -87,6 +87,7 @@ public class ConsultasProblema {
             rs = ps.executeQuery();
 
             ModeloTabla.addColumn("Tiket");
+            ModeloTabla.addColumn("Correo");
             ModeloTabla.addColumn("Nombre");
             ModeloTabla.addColumn("Detalle");
             ModeloTabla.addColumn("Fecha De Creación");
@@ -168,7 +169,6 @@ public class ConsultasProblema {
     //Insertar la solucion
     public boolean InsertarSolucion(ModeloSolucion ModeloS, VistaTicket VistaTicket, ModeloProblema Modelo) {
         try {
-
             ps = conexion.prepareStatement("UPDATE Soluciones SET Solucion = ? WHERE idSolucion = " + VistaTicket.TxtIDSolucion.getText() + "");
             ps.setString(1, ModeloS.getSolucion());
 
@@ -187,7 +187,6 @@ public class ConsultasProblema {
     //Insertar Avance
     public boolean InsertarAvance(ModeloAvances ModeloA, VistaTicket VistaTicket, ModeloProblema Modelo) {
         try {
-
             ps = conexion.prepareStatement("UPDATE Avances SET Avance = ? WHERE idAvances = " + VistaTicket.TxtIDAvance.getText() + "");
             ps.setString(1, VistaTicket.TxtAvance.getText());
 
@@ -206,7 +205,7 @@ public class ConsultasProblema {
     //Listar Avances
     public boolean ListarAvances(ModeloAvances ModeloA, VistaTicket VistaTicket, ModeloProblema Modelo) {
         try {
-            int idAvances = con.AutoIncrementA() + 2;
+            int idAvances = con.AutoIncrementA() + 3;
             int idAvancesS = idAvances;
             int idEstado = VistaTicket.JCEstadoTicket.getSelectedIndex();
             ps = conexion.prepareStatement("INSERT INTO Avances (idAvances, Avance, idAvanceProb, FechaAvance, RefEstado) "
@@ -225,6 +224,26 @@ public class ConsultasProblema {
         } catch (SQLException ex) {
             System.out.println("Error" + ex);
             return false;
+        }
+    }
+
+    //Busca si hay algún registro repetido en la BD
+    public int BuscaRepetido(String Correo) throws SQLException {
+        try {
+            ps = conexion.prepareStatement("SELECT count(idPersona) FROM Persona WHERE idPersona = ?");
+            ps.setString(1, Correo);
+
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+            return 1;
+
+        } catch (SQLException ex) {
+            System.out.println("Error " + ex);
+            return 1;
         }
     }
 
