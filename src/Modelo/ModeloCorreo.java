@@ -1,12 +1,14 @@
 package Modelo;
 
 import javax.mail.BodyPart;
+import javax.mail.Message;
 import javax.mail.Multipart;
 
 public class ModeloCorreo {
 
     public Multipart mp;
     public BodyPart bp;
+    public Message idMensaje;
     public String Correo;
     public String Sujeto;
     public String Contenido;
@@ -14,9 +16,10 @@ public class ModeloCorreo {
     public ModeloCorreo() {
     }
 
-    public ModeloCorreo(Multipart mp, BodyPart bp, String Correo, String Sujeto, String Contenido) {
+    public ModeloCorreo(Multipart mp, BodyPart bp, Message idMensaje, String Correo, String Sujeto, String Contenido) {
         this.mp = mp;
         this.bp = bp;
+        this.idMensaje = idMensaje;
         this.Correo = Correo;
         this.Sujeto = Sujeto;
         this.Contenido = Contenido;
@@ -36,6 +39,14 @@ public class ModeloCorreo {
 
     public void setBp(BodyPart bp) {
         this.bp = bp;
+    }
+
+    public Message getIdMensaje() {
+        return idMensaje;
+    }
+
+    public void setIdMensaje(Message idMensaje) {
+        this.idMensaje = idMensaje;
     }
 
     public String getCorreo() {

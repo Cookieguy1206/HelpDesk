@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import javax.mail.Message;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -228,11 +229,11 @@ public class ConsultasProblema {
     }
 
     //Busca si hay algún registro repetido en la BD
-    public int BuscaRepetido(String Correo) throws SQLException {
+    public int BuscaRepetido(Message msg) throws SQLException {
         try {
-            ps = conexion.prepareStatement("SELECT count(idPersona) FROM Persona WHERE idPersona = ?");
-            ps.setString(1, Correo);
+            ps = conexion.prepareStatement("SELECT count(idPersona) FROM Persona WHERE idPersona = " + msg.getMessageNumber() + "");
 
+            System.out.println(msg);
             rs = ps.executeQuery();
 
             if (rs.next()) {

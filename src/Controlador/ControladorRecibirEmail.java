@@ -25,6 +25,7 @@ public class ControladorRecibirEmail {
     public String Correo;
     public String Sujeto;
     public String Contenido;
+    public Message idMensaje;
     public int idPersona;
 
     public ArrayList<ModeloCorreo> RecibirEmail() throws MessagingException, IOException, SQLException {
@@ -67,20 +68,23 @@ public class ControladorRecibirEmail {
             ModeloCorreo.setBp(bp);
             ModeloCorreo.setSujeto(m.getSubject());
             ModeloCorreo.setContenido(bp.getContent().toString());
+            ModeloCorreo.setIdMensaje(m);
             listaCorreos.add(ModeloCorreo);
 
             Sujeto = ModeloCorreo.getSujeto();
             Contenido = ModeloCorreo.getContenido();
+            idMensaje = ModeloCorreo.getIdMensaje();
 
             /*System.out.println("FECHA DE ENVIO: " + m.getSentDate());
             System.out.println("ASUNTO: " + Sujeto);
             System.out.println("CONTENUDO: " + Contenido);*/
-            if (Problema.BuscaRepetido(ModeloCorreo.getCorreo()) == 0) {
-                System.out.println("No existe: Agregando...");
+            
+            if (Problema.BuscaRepetido(idMensaje) == 0) {
+                System.out.println("idMensaje " + idMensaje + " No existe: Agregando...");
                 InsertarCorreo();
                 InsertarContenido();
             } else {
-                System.out.println("Correo " + ModeloCorreo.getCorreo() + " Existe\n");
+                System.out.println("Correo " + Correo + " Existe\n");
             }
         }
         return listaCorreos;
