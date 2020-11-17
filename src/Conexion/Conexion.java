@@ -10,7 +10,7 @@ public class Conexion {
 
     public static final String URL = "jdbc:mysql://localhost:3306/helpdesk?autoReconnect=true&useSSL=false";
     public static final String USER = "root";
-    public static final String PASSWORD = "1206";
+    public static final String PASSWORD = "Cookie";
     public static final String DRIVER = "com.mysql.jdbc.Driver";
     PreparedStatement ps;
     ResultSet rs;

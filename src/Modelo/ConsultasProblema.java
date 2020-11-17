@@ -6,18 +6,28 @@ import Vista.AñadirProblema;
 import Vista.VerProblema;
 import Vista.VistaAvances;
 import Vista.VistaTicket;
+import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import javax.mail.Message;
 import javax.swing.JTable;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class ConsultasProblema {
 
     PreparedStatement ps;
+    Statement st;
     ResultSet rs;
     AñadirProblema AñadirProblema = new AñadirProblema();
     VerProblema VistaProblema = new VerProblema();
@@ -27,26 +37,28 @@ public class ConsultasProblema {
     Conexion con = new Conexion();
     Connection conexion;
 
-    public ConsultasProblema() throws SQLException {
+    public ConsultasProblema() throws SQLException, MessagingException {
         this.conexion = con.getConnection();
     }
 
     //Funcion para insertar el porblema en la BD
-    public boolean InsertarProblema(ModeloProblema Modelo, AñadirProblema AñadirProblema) {
+    public boolean Categorizar(ModeloProblema Modelo, AñadirProblema AñadirProblema) {
         try {
-            int idProblema = con.AutoIncrement();
-            int idSolucion = con.AutoIncrementS();
-            int idAvances = con.AutoIncrementA();
-            int idPrioridad = AñadirProblema.JCPrioridad.getSelectedIndex();
-            int idAreaProb = AñadirProblema.JCArea.getSelectedIndex();
-            int idTipoProb = AñadirProblema.JCTipoSolicitud.getSelectedIndex();
-            int idEstado = VistaTicket.JCEstadoTicket.getSelectedIndex();
+            ps = conexion.prepareStatement("UPDATE Problema SET NombreProb = ?, "
+                    + "DetalleProb = ?, "
+                    + "RefIdPrioridad = ?, "
+                    + "RefAreaProb = ?, "
+                    + "RefTipoProb = ?, "
+                    + "RefEstado = ? "
+                    + "WHERE (idProblema = ? )");
 
-            ps = conexion.prepareStatement("INSERT INTO problema(idProblema, NombreProb, DetalleProb, FechaCreacion, "
-                    + "RefIdPrioridad, RefAreaProb, RefTipoProb, RefEstado, RefSolucion, RefAvances) "
-                    + "VALUES(" + idProblema + ",?,?,CURRENT_TIMESTAMP," + idPrioridad + "," + idAreaProb + "," + idTipoProb + "," + idEstado + "," + idSolucion + "," + idAvances + ")");
             ps.setString(1, Modelo.getNombreProb());
             ps.setString(2, Modelo.getDetalleProb());
+            ps.setInt(3, Modelo.getRefIdPrioridad());
+            ps.setInt(4, Modelo.getRefAreaProb());
+            ps.setInt(5, Modelo.getRefTipoProb());
+            ps.setInt(6, Modelo.getRefEstado());
+            ps.setString(7, AñadirProblema.TxtID.getText());
 
             System.out.println(ps);
 
@@ -54,30 +66,11 @@ public class ConsultasProblema {
             return Resultado > 0;
 
         } catch (SQLException ex) {
-            System.out.println("Error" + ex);
+            System.out.println("Error: " + ex);
             return false;
         }
     }
-
-    //Iniciar trigger
-    public boolean IniciarTrigger(ModeloProblema Modelo) {
-        try {
-            ps = conexion.prepareStatement("CREATE TRIGGER Audit_Prob_Sol AFTER INSERT ON Problema "
-                    + "FOR EACH ROW "
-                    + "INSERT INTO Soluciones(idSolucion, Solucion) VALUES (NEW.RefSolucion = ?, '')");
-            ps.setInt(1, Modelo.getRefSolucion());
-
-            System.out.println(ps);
-
-            int Resultado = ps.executeUpdate();
-            return Resultado > 0;
-
-        } catch (SQLException ex) {
-            System.out.println(ex + "\n");
-            return false;
-        }
-    }
-
+    
     //Funcion para mostrar datos en el JTable
     public void Mostrar(JTable TablaProblema) {
         DefaultTableModel ModeloTabla = new DefaultTableModel();
@@ -231,9 +224,9 @@ public class ConsultasProblema {
     //Busca si hay algún registro repetido en la BD
     public int BuscaRepetido(Message msg) throws SQLException {
         try {
-            ps = conexion.prepareStatement("SELECT count(idPersona) FROM Persona WHERE idPersona = " + msg.getMessageNumber() + "");
+            ps = conexion.prepareStatement("SELECT count(idPersona) FROM Persona WHERE idPersona = " + msg.getMessageNumber()
+                    + "");
 
-            System.out.println(msg);
             rs = ps.executeQuery();
 
             if (rs.next()) {
@@ -248,12 +241,75 @@ public class ConsultasProblema {
         }
     }
 
+    public void GenerarReportePen() {
+        try {
+            JasperReport Reporte = null;
+
+            String Path = "src\\Vista\\ReportePendientes.jasper";
+
+            Reporte = (JasperReport) JRLoader.loadObjectFromFile(Path);
+
+            JasperPrint JPrint = JasperFillManager.fillReport(Reporte, null, conexion);
+
+            JasperViewer view = new JasperViewer(JPrint, false);
+
+            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+            view.setVisible(true);
+
+        } catch (JRException ex) {
+            System.out.println("Error " + ex);
+        }
+    }
+
+    public void GenerarReporteProc() {
+        try {
+            JasperReport Reporte = null;
+
+            String Path = "src\\Vista\\ReporteProcesos.jasper";
+
+            Reporte = (JasperReport) JRLoader.loadObjectFromFile(Path);
+
+            JasperPrint JPrint = JasperFillManager.fillReport(Reporte, null, conexion);
+
+            JasperViewer view = new JasperViewer(JPrint, false);
+
+            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+            view.setVisible(true);
+
+        } catch (JRException ex) {
+            System.out.println("Error " + ex);
+        }
+    }
+
+    public void GenerarReporteSol() {
+        try {
+            JasperReport Reporte = null;
+
+            String Path = "src\\Vista\\ReporteSoluciones.jasper";
+
+            Reporte = (JasperReport) JRLoader.loadObjectFromFile(Path);
+
+            JasperPrint JPrint = JasperFillManager.fillReport(Reporte, null, conexion);
+
+            JasperViewer view = new JasperViewer(JPrint, false);
+
+            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+            view.setVisible(true);
+
+        } catch (JRException ex) {
+            System.out.println("Error " + ex);
+        }
+    }
+
     //Apariencia para la interfaz gráfica
     public void Estetica() {
         //Diseño para que se vea más bonita la vista
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }

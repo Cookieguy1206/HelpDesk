@@ -10,12 +10,15 @@ import Vista.AñadirProblema;
 import Vista.VistaTicket;
 import Vista.VerProblema;
 import Vista.VistaAvances;
+import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
-import javax.mail.MessagingException;
 import javax.swing.JOptionPane;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ControladorProblema implements ActionListener {
 
@@ -41,30 +44,33 @@ public class ControladorProblema implements ActionListener {
         this.ModeloA = ModeloA;
         this.Problema = Problema;
         this.RecEm = RecEm;
-        AñadirProblema.BtnEnviar.addActionListener(this);
-        AñadirProblema.BtnCancelar.addActionListener(this);
+        AñadirProblema.BtnCategorizar.addActionListener(this);
+        AñadirProblema.BtnVerProb.addActionListener(this);
         AñadirProblema.BtnVerProb.addActionListener(this);
         AñadirProblema.BtnVerAvan.addActionListener(this);
-        VistaProblema.BtnVolver.addActionListener(this);
         VistaProblema.JMenuVer.addActionListener(this);
         VistaProblema.JMenuVerAv.addActionListener(this);
+        VistaProblema.JMenuCategorizar.addActionListener(this);
+        VistaProblema.BtnRepSol.addActionListener(this);
+        VistaProblema.BtnRepProc.addActionListener(this);
+        VistaProblema.BtnRepPen.addActionListener(this);
         VistaTicket.BtnVolver.addActionListener(this);
         VistaTicket.BtnGuardar.addActionListener(this);
         VistaAvances.BtnCerrar.addActionListener(this);
     }
 
-    public void Iniciar() throws SQLException, MessagingException, IOException {
-        AñadirProblema.setTitle("Añadir Problema");
-        AñadirProblema.setLocationRelativeTo(null);
-        AñadirProblema.setVisible(true);
-        AñadirProblema.TxtID.setVisible(false);
-        AñadirProblema.TxtFecha.setVisible(false);
-        AñadirProblema.TxtCorreo.setEnabled(false);
-        //AñadirProblema.JCSubTipoSol.setEnabled(false);
-        //AñadirProblema.JCSubSubTipo.setEnabled(false);
+    public void Iniciar() throws SQLException, MessagingException, IOException, javax.mail.MessagingException {
         VistaProblema.setTitle("Problemas");
         VistaProblema.setLocationRelativeTo(null);
-        VistaProblema.setVisible(false);
+        VistaProblema.setVisible(true);
+        AñadirProblema.setTitle("Añadir Problema");
+        AñadirProblema.setLocationRelativeTo(null);
+        AñadirProblema.setVisible(false);
+        AñadirProblema.TxtID.setVisible(false);
+        AñadirProblema.TxtFecha.setVisible(false);
+        AñadirProblema.TxtCorreo.setEditable(false);
+        AñadirProblema.TxtTituloSolicitud.setEditable(false);
+        AñadirProblema.TxtDetalleSolicitud.setEditable(false);
         VistaTicket.setTitle("Soluciones y Avances");
         VistaTicket.setLocationRelativeTo(null);
         VistaTicket.setVisible(false);
@@ -75,26 +81,37 @@ public class ControladorProblema implements ActionListener {
         VistaTicket.TxtCorreoTicket.setEnabled(false);
         VistaTicket.TxtIDAvance.setVisible(false);
         Problema.Mostrar(VistaProblema.JTablaProblema);
-        Problema.IniciarTrigger(Modelo);
+        //Problema.IniciarTrigger(Modelo);
         RecEm.RecibirEmail();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        //Botones Añadir Problema
+        try {
+            if (e.getSource() == AñadirProblema.BtnCategorizar) {
+                Modelo.setRefTipoProb(AñadirProblema.JCTipoSolicitud.getSelectedIndex());
+                Modelo.setRefSTipoProb(AñadirProblema.JCSubTipoSol.getSelectedIndex());
+                Modelo.setRefSSTipoProb(AñadirProblema.JCSubSubTipo.getSelectedIndex());
+                Modelo.setNombreProb(AñadirProblema.TxtTituloSolicitud.getText());
+                Modelo.setDetalleProb(AñadirProblema.TxtDetalleSolicitud.getText());
+                Modelo.setRefAreaProb(AñadirProblema.JCArea.getSelectedIndex());
+                Modelo.setRefIdPrioridad(AñadirProblema.JCPrioridad.getSelectedIndex());
+                Modelo.setIdProblema(Integer.parseInt(AñadirProblema.TxtID.getText()));
 
-        if (e.getSource() == AñadirProblema.BtnEnviar) {
-            Modelo.setNombreProb(AñadirProblema.TxtTituloSolicitud.getText());
-            Modelo.setDetalleProb(AñadirProblema.TxtDetalleSolicitud.getText());
-            ModeloP.setCorreoPersona(AñadirProblema.TxtCorreo.getText());
-            ModeloS.setSolucion(VistaTicket.TxtSolucion.getText());
-
-            if (Problema.InsertarProblema(Modelo, AñadirProblema)) {
-                JOptionPane.showMessageDialog(null, "Registro INSERTADO CORRECTAMENTE");
-                Limpiar();
-            } else {
-                JOptionPane.showMessageDialog(null, "ERROR el registro NO fue insertado");
-                Limpiar();
+                if (Problema.Categorizar(Modelo, AñadirProblema)) {
+                    JOptionPane.showMessageDialog(null, "Categorizado!!");
+                    Problema.Mostrar(VistaProblema.JTablaProblema);
+                    AñadirProblema.setVisible(false);
+                    VistaProblema.setVisible(true);
+                    Limpiar();
+                } else {
+                    JOptionPane.showMessageDialog(null, "ERROR el estado NO ha podido ser categorizado");
+                    Limpiar();
+                }
             }
+        } catch (HeadlessException ex) {
+            System.out.println("Error " + ex);
         }
 
         if (e.getSource() == AñadirProblema.BtnVerProb) {
@@ -105,25 +122,13 @@ public class ControladorProblema implements ActionListener {
             Problema.Mostrar(VistaProblema.JTablaProblema);
         }
 
-        if (e.getSource() == VistaProblema.BtnVolver) {
-            AñadirProblema.setVisible(true);
-            VistaProblema.setVisible(false);
-        }
-
         if (e.getSource() == AñadirProblema.BtnVerAvan) {
             VistaTicket.setVisible(true);
             AñadirProblema.setVisible(false);
         }
+        //Cierre Botones Añadir Problema
 
-        if (e.getSource() == VistaTicket.BtnVolver) {
-            VistaProblema.setVisible(true);
-            VistaTicket.setVisible(false);
-        }
-
-        if (e.getSource() == VistaAvances.BtnCerrar) {
-            VistaAvances.setVisible(false);
-        }
-
+        //Botones Ver Problema
         if (e.getSource() == VistaProblema.JMenuVer) {
             VistaProblema.setVisible(false);
             VistaTicket.setVisible(true);
@@ -137,6 +142,7 @@ public class ControladorProblema implements ActionListener {
                 VistaTicket.TxtIDSolucion.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 0).toString());
                 VistaTicket.TxtIDAvance.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 0).toString());
                 VistaTicket.TxtCorreoTicket.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 1).toString());
+                VistaTicket.txtTitulo.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 2).toString());
                 VistaTicket.TxtDescripcion.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 3).toString());
                 VistaTicket.JCAreaTicket.setSelectedItem(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 5).toString());
                 VistaTicket.JCEstadoTicket.setSelectedItem(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 6).toString());
@@ -145,6 +151,7 @@ public class ControladorProblema implements ActionListener {
                 VistaTicket.TxtIDTicket.setEditable(false);
                 VistaTicket.JCAreaTicket.setEnabled(false);
                 VistaTicket.TxtDescripcion.setEditable(false);
+                VistaTicket.txtTitulo.setEditable(false);
             }
         }
 
@@ -163,6 +170,36 @@ public class ControladorProblema implements ActionListener {
             }
         }
 
+        if (e.getSource() == VistaProblema.JMenuCategorizar) {
+            VistaProblema.setVisible(false);
+            AñadirProblema.setVisible(true);
+            Limpiar2();
+
+            int SelectedRow = VistaProblema.JTablaProblema.getSelectedRow();
+            int NumSelectedRow = VistaProblema.JTablaProblema.getSelectedRowCount();
+
+            if (SelectedRow >= 0 && NumSelectedRow == 1) {
+                AñadirProblema.TxtID.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 0).toString());
+                AñadirProblema.TxtCorreo.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 1).toString());
+                AñadirProblema.TxtTituloSolicitud.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 2).toString());
+                AñadirProblema.TxtDetalleSolicitud.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 3).toString());
+            }
+        }
+
+        if (e.getSource() == VistaProblema.BtnRepSol) {
+            Problema.GenerarReporteSol();
+        }
+
+        if (e.getSource() == VistaProblema.BtnRepProc) {
+            Problema.GenerarReporteProc();
+        }
+
+        if (e.getSource() == VistaProblema.BtnRepPen) {
+            Problema.GenerarReportePen();
+        }
+        //Cierre Botones Ver Problema
+
+        //Botones Vista Ticket
         if (e.getSource() == VistaTicket.BtnGuardar) {
 
             Modelo.setRefEstado(VistaTicket.JCEstadoTicket.getSelectedIndex());
@@ -202,17 +239,40 @@ public class ControladorProblema implements ActionListener {
                 Limpiar();
             }
         }
-    }
 
+        if (e.getSource() == VistaTicket.BtnVolver) {
+            VistaProblema.setVisible(true);
+            VistaTicket.setVisible(false);
+        }
+        //Cierre de botones Vista Ticket
+        
+        //Botones Vista Avances
+        if (e.getSource() == VistaAvances.BtnCerrar) {
+            VistaAvances.setVisible(false);
+        }
+    }
+    //Final del ActionPeromed
+
+    //Timer
+    public void Timer() {
+        Timer timer = new Timer();
+        TimerTask TS = new TimerTask() {
+            
+            @Override
+            public void run() {
+                Problema.Mostrar(VistaProblema.JTablaProblema);
+            }
+        };
+        
+        timer.schedule(TS, 0, 1000);
+    }
+    
     public void Limpiar() {
-        AñadirProblema.TxtTituloSolicitud.setText(null);
-        AñadirProblema.TxtDetalleSolicitud.setText(null);
-        AñadirProblema.TxtCorreo.setText(null);
         AñadirProblema.JCTipoSolicitud.setSelectedIndex(0);
         AñadirProblema.JCArea.setSelectedIndex(0);
         AñadirProblema.JCPrioridad.setSelectedIndex(0);
     }
-    
+
     public void Limpiar2() {
         VistaTicket.TxtAvance.setText(null);
     }

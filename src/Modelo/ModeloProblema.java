@@ -11,6 +11,8 @@ public class ModeloProblema {
     private int RefIdPrioridad;
     private int RefAreaProb;
     private int RefTipoProb;
+    private int RefSTipoProb;
+    private int RefSSTipoProb;
     private int RefEstado;
     private int RefPersona;
     private int RefSolucion;
@@ -19,7 +21,7 @@ public class ModeloProblema {
     public ModeloProblema() {
     }
 
-    public ModeloProblema(int idProblema, String NombreProb, String DetalleProb, Date FechaCreacion, int RefIdPrioridad, int RefAreaProb, int RefTipoProb, int RefEstado, int RefPersona, int RefSolucion, int RefAvances) {
+    public ModeloProblema(int idProblema, String NombreProb, String DetalleProb, Date FechaCreacion, int RefIdPrioridad, int RefAreaProb, int RefTipoProb, int RefSTipoProb, int RefSSTipoProb, int RefEstado, int RefPersona, int RefSolucion, int RefAvances) {
         this.idProblema = idProblema;
         this.NombreProb = NombreProb;
         this.DetalleProb = DetalleProb;
@@ -27,6 +29,8 @@ public class ModeloProblema {
         this.RefIdPrioridad = RefIdPrioridad;
         this.RefAreaProb = RefAreaProb;
         this.RefTipoProb = RefTipoProb;
+        this.RefSTipoProb = RefSTipoProb;
+        this.RefSSTipoProb = RefSSTipoProb;
         this.RefEstado = RefEstado;
         this.RefPersona = RefPersona;
         this.RefSolucion = RefSolucion;
@@ -87,6 +91,22 @@ public class ModeloProblema {
 
     public void setRefTipoProb(int RefTipoProb) {
         this.RefTipoProb = RefTipoProb;
+    }
+
+    public int getRefSTipoProb() {
+        return RefSTipoProb;
+    }
+
+    public void setRefSTipoProb(int RefSTipoProb) {
+        this.RefSTipoProb = RefSTipoProb;
+    }
+
+    public int getRefSSTipoProb() {
+        return RefSSTipoProb;
+    }
+
+    public void setRefSSTipoProb(int RefSSTipoProb) {
+        this.RefSSTipoProb = RefSSTipoProb;
     }
 
     public int getRefEstado() {

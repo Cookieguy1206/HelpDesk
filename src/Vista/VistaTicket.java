@@ -74,6 +74,7 @@ public class VistaTicket extends javax.swing.JFrame {
         TxtDescripcion = new javax.swing.JTextPane();
         BtnGuardar = new javax.swing.JButton();
         JCAreaTicket = new javax.swing.JComboBox<>();
+        txtTitulo = new javax.swing.JTextField();
         PanelSolucion = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TxtSolucion = new javax.swing.JTextArea();
@@ -103,7 +104,7 @@ public class VistaTicket extends javax.swing.JFrame {
 
         jLabel9.setText("Estado");
 
-        jLabel10.setText("Descripcion del problema");
+        jLabel10.setText("Descripcion y titulo del problema");
 
         jScrollPane2.setViewportView(TxtDescripcion);
 
@@ -114,7 +115,7 @@ public class VistaTicket extends javax.swing.JFrame {
         PanelTicketLayout.setHorizontalGroup(
             PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelTicketLayout.createSequentialGroup()
-                .addGroup(PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelTicketLayout.createSequentialGroup()
                         .addGap(209, 209, 209)
                         .addComponent(jLabel6)
@@ -124,15 +125,25 @@ public class VistaTicket extends javax.swing.JFrame {
                         .addGap(225, 225, 225)
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(JCEstadoTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(JCEstadoTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(255, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelTicketLayout.createSequentialGroup()
+                .addGroup(PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(PanelTicketLayout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 613, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelTicketLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(BtnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BtnGuardar))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelTicketLayout.createSequentialGroup()
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(BtnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(BtnGuardar))
+                                .addGroup(PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane2)
+                                    .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 613, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelTicketLayout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addGap(238, 238, 238))))
                     .addGroup(PanelTicketLayout.createSequentialGroup()
                         .addGap(90, 90, 90)
                         .addGroup(PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,11 +152,8 @@ public class VistaTicket extends javax.swing.JFrame {
                         .addGap(103, 103, 103)
                         .addGroup(PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
-                            .addComponent(JCAreaTicket, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(JCAreaTicket, 0, 253, Short.MAX_VALUE))))
                 .addGap(79, 79, 79))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelTicketLayout.createSequentialGroup()
-                .addComponent(jLabel10)
-                .addGap(317, 317, 317))
         );
         PanelTicketLayout.setVerticalGroup(
             PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -169,14 +177,17 @@ public class VistaTicket extends javax.swing.JFrame {
                 .addGroup(PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(JCEstadoTicket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
-                .addGap(40, 40, 40)
+                .addGap(27, 27, 27)
                 .addComponent(jLabel10)
+                .addGap(18, 18, 18)
+                .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14)
                 .addGroup(PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnVolver)
-                    .addComponent(BtnGuardar)))
+                    .addComponent(BtnGuardar))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Ticket", PanelTicket);
@@ -237,11 +248,11 @@ public class VistaTicket extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 784, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)
         );
 
         pack();
@@ -301,5 +312,6 @@ public class VistaTicket extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    public javax.swing.JTextField txtTitulo;
     // End of variables declaration//GEN-END:variables
 }

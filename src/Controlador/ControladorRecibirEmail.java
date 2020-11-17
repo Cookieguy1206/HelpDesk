@@ -28,7 +28,7 @@ public class ControladorRecibirEmail {
     public Message idMensaje;
     public int idPersona;
 
-    public ArrayList<ModeloCorreo> RecibirEmail() throws MessagingException, IOException, SQLException {
+    public ArrayList<ModeloCorreo> RecibirEmail() throws MessagingException, IOException, SQLException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
 
         ConsultasProblema Problema = new ConsultasProblema();
         ArrayList listaCorreos = new ArrayList();
@@ -51,7 +51,6 @@ public class ControladorRecibirEmail {
         for (Message m : mensajes) {
             ModeloCorreo ModeloCorreo = new ModeloCorreo();
             Address[] in = m.getFrom();
-
             for (Address address : in) {
                 ModeloCorreo.setCorreo(address.toString());
                 Correo = ModeloCorreo.getCorreo();
@@ -122,7 +121,8 @@ public class ControladorRecibirEmail {
             conexion = con.getConnection();
             int idProblemaR = con.AutoIncrement() + 1;
             int idProblema = idProblemaR;
-            int idSolucion = con.AutoIncrementS();
+            int idSolucionR = con.AutoIncrementS() + 1;
+            int idSolucion = idSolucionR;
             int idAvances = con.AutoIncrementA();
             int idPrioridad = AñadirProblema.JCPrioridad.getSelectedIndex();
             int idAreaProb = AñadirProblema.JCArea.getSelectedIndex();
@@ -131,7 +131,7 @@ public class ControladorRecibirEmail {
 
             PreparedStatement ps = conexion.prepareStatement("INSERT INTO Problema(idProblema, NombreProb, DetalleProb, FechaCreacion, "
                     + "RefIdPrioridad, RefAreaProb, RefTipoProb, RefEstado, RefPersona, RefSolucion, RefAvances) "
-                    + "VALUES(" + idProblema + ",?, ?, CURRENT_TIMESTAMP," + idPrioridad + "," + idAreaProb + "," + idTipoProb + "," + idEstado + "," + idPersona + "," + idSolucion + "," + idAvances + ")");
+                    + "VALUES(" + idProblema + ",?, ?, CURRENT_TIMESTAMP," + idPrioridad + "," + idAreaProb + "," + idTipoProb + "," + idEstado + "," + idPersona + "," + idSolucion + "," + idAvances +")");
             ps.setString(1, Sujeto);
             ps.setString(2, Contenido);
 

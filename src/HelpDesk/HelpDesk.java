@@ -18,7 +18,7 @@ import javax.mail.MessagingException;
 
 public class HelpDesk {
 
-    public static void main(String[] args) throws SQLException, IOException, MessagingException {
+    public static void main(String[] args) throws SQLException, IOException, MessagingException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
 
         ConsultasProblema Problema = new ConsultasProblema();
 
