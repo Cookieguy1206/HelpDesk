@@ -1,6 +1,7 @@
 package Modelo;
 
 import Conexion.Conexion;
+import Controlador.ControladorProblema;
 import Controlador.ControladorRecibirEmail;
 import Vista.AñadirProblema;
 import Vista.VerProblema;
@@ -15,6 +16,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.mail.Message;
 import javax.swing.JTable;
+import javax.swing.Timer;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
@@ -70,7 +72,7 @@ public class ConsultasProblema {
             return false;
         }
     }
-    
+
     //Funcion para mostrar datos en el JTable
     public void Mostrar(JTable TablaProblema) {
         DefaultTableModel ModeloTabla = new DefaultTableModel();

@@ -17,8 +17,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-import java.util.Timer;
-import java.util.TimerTask;
+import javax.swing.Timer;
 
 public class ControladorProblema implements ActionListener {
 
@@ -252,19 +251,13 @@ public class ControladorProblema implements ActionListener {
         }
     }
     //Final del ActionPeromed
-
+    
     //Timer
     public void Timer() {
-        Timer timer = new Timer();
-        TimerTask TS = new TimerTask() {
-            
-            @Override
-            public void run() {
-                Problema.Mostrar(VistaProblema.JTablaProblema);
-            }
-        };
+        Timer timer = new Timer(1000, this);
+        timer.start();
         
-        timer.schedule(TS, 0, 1000);
+        
     }
     
     public void Limpiar() {
