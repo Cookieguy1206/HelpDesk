@@ -16,7 +16,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 public class ControladorProblema implements ActionListener {
@@ -62,9 +65,11 @@ public class ControladorProblema implements ActionListener {
         VistaProblema.setTitle("Problemas");
         VistaProblema.setLocationRelativeTo(null);
         VistaProblema.setVisible(true);
+        VistaProblema.setResizable(false);
         AñadirProblema.setTitle("Añadir Problema");
         AñadirProblema.setLocationRelativeTo(null);
         AñadirProblema.setVisible(false);
+        AñadirProblema.setResizable(false);
         AñadirProblema.TxtID.setVisible(false);
         AñadirProblema.TxtFecha.setVisible(false);
         AñadirProblema.TxtCorreo.setEditable(false);
@@ -73,15 +78,63 @@ public class ControladorProblema implements ActionListener {
         VistaTicket.setTitle("Soluciones y Avances");
         VistaTicket.setLocationRelativeTo(null);
         VistaTicket.setVisible(false);
+        VistaTicket.setResizable(false);
         VistaAvances.setTitle("Avances");
         VistaAvances.setLocationRelativeTo(null);
         VistaAvances.setVisible(false);
+        VistaAvances.setResizable(false);
         VistaTicket.TxtIDSolucion.setVisible(false);
         VistaTicket.TxtCorreoTicket.setEnabled(false);
         VistaTicket.TxtIDAvance.setVisible(false);
+        VistaTicket.setResizable(false);
         Problema.Mostrar(VistaProblema.JTablaProblema);
-        //Problema.IniciarTrigger(Modelo);
         RecEm.RecibirEmail();
+        ActualizarEmail();
+        ActualizarTabla();
+    }
+
+    Timer timer;
+
+    //Timer
+    public void ActualizarTabla() {
+
+        SwingUtilities.invokeLater(() -> {
+            ActionListener Action = (ActionEvent evt) -> {
+
+                Problema.Mostrar(VistaProblema.JTablaProblema);
+                System.out.println("Actualizando...");
+
+            };
+            timer = new Timer(10000, Action);
+            timer.setInitialDelay(6000);
+            timer.start();
+        });
+    }
+
+    public void ActualizarEmail() {
+        SwingUtilities.invokeLater(() -> {
+            ActionListener Action = (ActionEvent evt) -> {
+
+                System.out.println("Insertando...");
+                try {
+                    RecEm.RecibirEmail();
+                } catch (javax.mail.MessagingException | IOException | SQLException | com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException ex) {
+                    Logger.getLogger(ControladorRecibirEmail.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            };
+            int Minutos = 30;
+            int Tiempo = 60 * Minutos;
+            int Delay = Tiempo;
+            timer = new Timer(Delay, Action);
+            timer.setInitialDelay(Delay);
+            timer.start();
+        });
+    }
+
+    //Detener Timer
+    public void DetenerTimer() {
+        timer.stop();
+        System.out.println("Timer Detenido");
     }
 
     @Override
@@ -128,32 +181,6 @@ public class ControladorProblema implements ActionListener {
         //Cierre Botones Añadir Problema
 
         //Botones Ver Problema
-        if (e.getSource() == VistaProblema.JMenuVer) {
-            VistaProblema.setVisible(false);
-            VistaTicket.setVisible(true);
-            Limpiar2();
-
-            int SelectedRow = VistaProblema.JTablaProblema.getSelectedRow();
-            int NumSelectedRow = VistaProblema.JTablaProblema.getSelectedRowCount();
-
-            if (SelectedRow >= 0 && NumSelectedRow == 1) {
-                VistaTicket.TxtIDTicket.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 0).toString());
-                VistaTicket.TxtIDSolucion.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 0).toString());
-                VistaTicket.TxtIDAvance.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 0).toString());
-                VistaTicket.TxtCorreoTicket.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 1).toString());
-                VistaTicket.txtTitulo.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 2).toString());
-                VistaTicket.TxtDescripcion.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 3).toString());
-                VistaTicket.JCAreaTicket.setSelectedItem(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 5).toString());
-                VistaTicket.JCEstadoTicket.setSelectedItem(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 6).toString());
-                VistaTicket.TxtSolucion.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 7).toString());
-
-                VistaTicket.TxtIDTicket.setEditable(false);
-                VistaTicket.JCAreaTicket.setEnabled(false);
-                VistaTicket.TxtDescripcion.setEditable(false);
-                VistaTicket.txtTitulo.setEditable(false);
-            }
-        }
-
         if (e.getSource() == VistaProblema.JMenuVerAv) {
             int SelectedRow = VistaProblema.JTablaProblema.getSelectedRow();
             int NumSelectedRow = VistaProblema.JTablaProblema.getSelectedRowCount();
@@ -199,6 +226,32 @@ public class ControladorProblema implements ActionListener {
         //Cierre Botones Ver Problema
 
         //Botones Vista Ticket
+        if (e.getSource() == VistaProblema.JMenuVer) {
+            VistaProblema.setVisible(false);
+            VistaTicket.setVisible(true);
+            Limpiar2();
+
+            int SelectedRow = VistaProblema.JTablaProblema.getSelectedRow();
+            int NumSelectedRow = VistaProblema.JTablaProblema.getSelectedRowCount();
+
+            if (SelectedRow >= 0 && NumSelectedRow == 1) {
+                VistaTicket.TxtIDTicket.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 0).toString());
+                VistaTicket.TxtIDSolucion.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 0).toString());
+                VistaTicket.TxtIDAvance.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 0).toString());
+                VistaTicket.TxtCorreoTicket.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 1).toString());
+                VistaTicket.txtTitulo.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 2).toString());
+                VistaTicket.TxtDescripcion.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 3).toString());
+                VistaTicket.JCAreaTicket.setSelectedItem(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 5).toString());
+                VistaTicket.JCEstadoTicket.setSelectedItem(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 6).toString());
+                VistaTicket.TxtSolucion.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 7).toString());
+
+                VistaTicket.TxtIDTicket.setEditable(false);
+                VistaTicket.JCAreaTicket.setEnabled(false);
+                VistaTicket.TxtDescripcion.setEditable(false);
+                VistaTicket.txtTitulo.setEditable(false);
+            }
+        }
+
         if (e.getSource() == VistaTicket.BtnGuardar) {
 
             Modelo.setRefEstado(VistaTicket.JCEstadoTicket.getSelectedIndex());
@@ -244,22 +297,14 @@ public class ControladorProblema implements ActionListener {
             VistaTicket.setVisible(false);
         }
         //Cierre de botones Vista Ticket
-        
+
         //Botones Vista Avances
         if (e.getSource() == VistaAvances.BtnCerrar) {
             VistaAvances.setVisible(false);
         }
     }
     //Final del ActionPeromed
-    
-    //Timer
-    public void Timer() {
-        Timer timer = new Timer(1000, this);
-        timer.start();
-        
-        
-    }
-    
+
     public void Limpiar() {
         AñadirProblema.JCTipoSolicitud.setSelectedIndex(0);
         AñadirProblema.JCArea.setSelectedIndex(0);

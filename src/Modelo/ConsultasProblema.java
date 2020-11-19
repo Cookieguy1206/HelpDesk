@@ -16,7 +16,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.mail.Message;
 import javax.swing.JTable;
-import javax.swing.Timer;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
@@ -36,6 +35,7 @@ public class ConsultasProblema {
     VistaTicket VistaTicket = new VistaTicket();
     VistaAvances VistaAvances = new VistaAvances();
     ControladorRecibirEmail RecibirEmail = new ControladorRecibirEmail();
+    ControladorProblema Problema;
     Conexion con = new Conexion();
     Connection conexion;
 
@@ -311,7 +311,7 @@ public class ConsultasProblema {
         //Diseño para que se vea más bonita la vista
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
+                if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }

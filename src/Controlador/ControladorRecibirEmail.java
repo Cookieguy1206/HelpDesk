@@ -5,12 +5,16 @@ import Modelo.ConsultasProblema;
 import Modelo.ModeloCorreo;
 import Vista.AñadirProblema;
 import Vista.VistaTicket;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.mail.Address;
 import javax.mail.BodyPart;
 import javax.mail.Folder;
@@ -19,6 +23,8 @@ import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Store;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 public class ControladorRecibirEmail {
 
@@ -26,6 +32,7 @@ public class ControladorRecibirEmail {
     public String Sujeto;
     public String Contenido;
     public Message idMensaje;
+    public Timer timer;
     public int idPersona;
 
     public ArrayList<ModeloCorreo> RecibirEmail() throws MessagingException, IOException, SQLException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
@@ -77,7 +84,6 @@ public class ControladorRecibirEmail {
             /*System.out.println("FECHA DE ENVIO: " + m.getSentDate());
             System.out.println("ASUNTO: " + Sujeto);
             System.out.println("CONTENUDO: " + Contenido);*/
-            
             if (Problema.BuscaRepetido(idMensaje) == 0) {
                 System.out.println("idMensaje " + idMensaje + " No existe: Agregando...");
                 InsertarCorreo();
@@ -131,7 +137,7 @@ public class ControladorRecibirEmail {
 
             PreparedStatement ps = conexion.prepareStatement("INSERT INTO Problema(idProblema, NombreProb, DetalleProb, FechaCreacion, "
                     + "RefIdPrioridad, RefAreaProb, RefTipoProb, RefEstado, RefPersona, RefSolucion, RefAvances) "
-                    + "VALUES(" + idProblema + ",?, ?, CURRENT_TIMESTAMP," + idPrioridad + "," + idAreaProb + "," + idTipoProb + "," + idEstado + "," + idPersona + "," + idSolucion + "," + idAvances +")");
+                    + "VALUES(" + idProblema + ",?, ?, CURRENT_TIMESTAMP," + idPrioridad + "," + idAreaProb + "," + idTipoProb + "," + idEstado + "," + idPersona + "," + idSolucion + "," + idAvances + ")");
             ps.setString(1, Sujeto);
             ps.setString(2, Contenido);
 
