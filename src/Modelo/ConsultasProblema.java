@@ -8,14 +8,21 @@ import Vista.VerProblema;
 import Vista.VistaAvances;
 import Vista.VistaTicket;
 import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.mail.Message;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
@@ -243,6 +250,7 @@ public class ConsultasProblema {
         }
     }
 
+    //Generar reporte
     public void GenerarReportePen() {
         try {
             JasperReport Reporte = null;
@@ -264,6 +272,7 @@ public class ConsultasProblema {
         }
     }
 
+    //Generar reporte
     public void GenerarReporteProc() {
         try {
             JasperReport Reporte = null;
@@ -285,6 +294,7 @@ public class ConsultasProblema {
         }
     }
 
+    //Generar reporte
     public void GenerarReporteSol() {
         try {
             JasperReport Reporte = null;

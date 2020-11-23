@@ -7,9 +7,11 @@ import Modelo.ModeloPersona;
 import Modelo.ModeloProblema;
 import Modelo.ModeloSolucion;
 import Vista.AñadirProblema;
+import Vista.SplashScreen;
 import Vista.VistaTicket;
 import Vista.VerProblema;
 import Vista.VistaAvances;
+import com.sun.awt.AWTUtilities;
 import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
@@ -28,6 +30,7 @@ public class ControladorProblema implements ActionListener {
     private final VerProblema VistaProblema;
     private final VistaTicket VistaTicket;
     private final VistaAvances VistaAvances;
+    private final SplashScreen SplashScreen;
     private final ModeloProblema Modelo;
     private final ModeloPersona ModeloP;
     private final ModeloSolucion ModeloS;
@@ -35,11 +38,12 @@ public class ControladorProblema implements ActionListener {
     private final ConsultasProblema Problema;
     private final ControladorRecibirEmail RecEm;
 
-    public ControladorProblema(AñadirProblema AñadirProblema, VerProblema VistaProblema, VistaTicket VistaTicket, VistaAvances VistaAvances, ModeloProblema Modelo, ModeloPersona ModeloP, ModeloSolucion ModeloS, ModeloAvances ModeloA, ModeloCorreo ModeloC, ConsultasProblema Problema, ControladorRecibirEmail RecEm) {
+    public ControladorProblema(AñadirProblema AñadirProblema, VerProblema VistaProblema, VistaTicket VistaTicket, VistaAvances VistaAvances, SplashScreen SplashScreen, ModeloProblema Modelo, ModeloPersona ModeloP, ModeloSolucion ModeloS, ModeloAvances ModeloA, ModeloCorreo ModeloC, ConsultasProblema Problema, ControladorRecibirEmail RecEm) {
         this.AñadirProblema = AñadirProblema;
         this.VistaProblema = VistaProblema;
         this.VistaTicket = VistaTicket;
         this.VistaAvances = VistaAvances;
+        this.SplashScreen = SplashScreen;
         this.Modelo = Modelo;
         this.ModeloP = ModeloP;
         this.ModeloS = ModeloS;
@@ -88,12 +92,11 @@ public class ControladorProblema implements ActionListener {
         VistaTicket.TxtIDAvance.setVisible(false);
         VistaTicket.setResizable(false);
         Problema.Mostrar(VistaProblema.JTablaProblema);
-        RecEm.RecibirEmail();
-        ActualizarEmail();
         ActualizarTabla();
     }
 
     Timer timer;
+    ActionListener AL;
 
     //Timer
     public void ActualizarTabla() {
@@ -106,11 +109,12 @@ public class ControladorProblema implements ActionListener {
 
             };
             timer = new Timer(10000, Action);
-            timer.setInitialDelay(6000);
+            timer.setInitialDelay(0);
             timer.start();
         });
     }
 
+    //Timer Correos
     public void ActualizarEmail() {
         SwingUtilities.invokeLater(() -> {
             ActionListener Action = (ActionEvent evt) -> {
@@ -122,8 +126,9 @@ public class ControladorProblema implements ActionListener {
                     Logger.getLogger(ControladorRecibirEmail.class.getName()).log(Level.SEVERE, null, ex);
                 }
             };
+            int Milisegundos = 60000;
             int Minutos = 30;
-            int Tiempo = 60 * Minutos;
+            int Tiempo = Milisegundos * Minutos;
             int Delay = Tiempo;
             timer = new Timer(Delay, Action);
             timer.setInitialDelay(Delay);
