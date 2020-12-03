@@ -1,27 +1,15 @@
 package HelpDesk;
 
-import Controlador.ControladorRecibirEmail;
-import Controlador.ControladorProblema;
-import Modelo.ConsultasProblema;
-import Modelo.ModeloAvances;
-import Modelo.ModeloCorreo;
-import Modelo.ModeloPersona;
-import Modelo.ModeloProblema;
-import Modelo.ModeloSolucion;
-import Vista.AñadirProblema;
-import Vista.SplashScreen;
-import Vista.VistaTicket;
-import Vista.VerProblema;
-import Vista.VistaAvances;
+import Controlador.*;
+import Modelo.*;
+import Vista.*;
 import com.sun.awt.AWTUtilities;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.mail.MessagingException;
-import javax.swing.Timer;
+import java.awt.event.*;
+import java.io.*;
+import java.sql.*;
+import java.util.logging.*;
+import javax.mail.*;
+import javax.swing.*;
 
 public class HelpDesk {
 
@@ -38,6 +26,7 @@ public class HelpDesk {
         VerProblema VistaProblema = new VerProblema();
         VistaTicket Soluciones = new VistaTicket();
         VistaAvances VistaAvances = new VistaAvances();
+        VistaImagen VistaImagen = new VistaImagen();
         SplashScreen SplashScreen = new SplashScreen();
         ModeloProblema Modelo = new ModeloProblema();
         ModeloPersona ModeloP = new ModeloPersona();
@@ -46,8 +35,8 @@ public class HelpDesk {
         ModeloCorreo ModeloC = new ModeloCorreo();
         ControladorRecibirEmail RecEm = new ControladorRecibirEmail();
 
-        ControladorProblema ControladroProblema = new ControladorProblema(AñadirProblema, VistaProblema, Soluciones, VistaAvances, SplashScreen, Modelo, ModeloP, ModeloS, ModeloA, ModeloC, Problema, RecEm);
-
+        ControladorProblema ControladroProblema = new ControladorProblema(AñadirProblema, VistaProblema, Soluciones, VistaAvances, VistaImagen, SplashScreen, Modelo, ModeloP, ModeloS, ModeloA, ModeloC, Problema, RecEm);
+ 
         AL = (ActionEvent e) -> {
             if (SplashScreen.BarraCarga.getValue() < 200) {
                 SplashScreen.setVisible(true);

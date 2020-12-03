@@ -1,28 +1,17 @@
 package Controlador;
 
-import Modelo.ConsultasProblema;
-import Modelo.ModeloAvances;
-import Modelo.ModeloCorreo;
-import Modelo.ModeloPersona;
-import Modelo.ModeloProblema;
-import Modelo.ModeloSolucion;
-import Vista.AñadirProblema;
-import Vista.SplashScreen;
-import Vista.VistaTicket;
-import Vista.VerProblema;
-import Vista.VistaAvances;
-import com.sun.awt.AWTUtilities;
+import Modelo.*;
+import Vista.*;
 import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
+import java.awt.Desktop;
 import java.awt.HeadlessException;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.sql.SQLException;
+import java.awt.event.*;
+import java.io.*;
+import java.sql.*;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
+import javax.swing.*;
 
 public class ControladorProblema implements ActionListener {
 
@@ -30,6 +19,7 @@ public class ControladorProblema implements ActionListener {
     private final VerProblema VistaProblema;
     private final VistaTicket VistaTicket;
     private final VistaAvances VistaAvances;
+    private final VistaImagen VistaImagen;
     private final SplashScreen SplashScreen;
     private final ModeloProblema Modelo;
     private final ModeloPersona ModeloP;
@@ -38,11 +28,12 @@ public class ControladorProblema implements ActionListener {
     private final ConsultasProblema Problema;
     private final ControladorRecibirEmail RecEm;
 
-    public ControladorProblema(AñadirProblema AñadirProblema, VerProblema VistaProblema, VistaTicket VistaTicket, VistaAvances VistaAvances, SplashScreen SplashScreen, ModeloProblema Modelo, ModeloPersona ModeloP, ModeloSolucion ModeloS, ModeloAvances ModeloA, ModeloCorreo ModeloC, ConsultasProblema Problema, ControladorRecibirEmail RecEm) {
+    public ControladorProblema(AñadirProblema AñadirProblema, VerProblema VistaProblema, VistaTicket VistaTicket, VistaAvances VistaAvances, VistaImagen VistaImagen, SplashScreen SplashScreen, ModeloProblema Modelo, ModeloPersona ModeloP, ModeloSolucion ModeloS, ModeloAvances ModeloA, ModeloCorreo ModeloC, ConsultasProblema Problema, ControladorRecibirEmail RecEm) {
         this.AñadirProblema = AñadirProblema;
         this.VistaProblema = VistaProblema;
         this.VistaTicket = VistaTicket;
         this.VistaAvances = VistaAvances;
+        this.VistaImagen = VistaImagen;
         this.SplashScreen = SplashScreen;
         this.Modelo = Modelo;
         this.ModeloP = ModeloP;
@@ -54,6 +45,7 @@ public class ControladorProblema implements ActionListener {
         AñadirProblema.BtnVerProb.addActionListener(this);
         AñadirProblema.BtnVerProb.addActionListener(this);
         AñadirProblema.BtnVerAvan.addActionListener(this);
+        VistaProblema.BtnActualizarEmail.addActionListener(this);
         VistaProblema.JMenuVer.addActionListener(this);
         VistaProblema.JMenuVerAv.addActionListener(this);
         VistaProblema.JMenuCategorizar.addActionListener(this);
@@ -62,6 +54,7 @@ public class ControladorProblema implements ActionListener {
         VistaProblema.BtnRepPen.addActionListener(this);
         VistaTicket.BtnVolver.addActionListener(this);
         VistaTicket.BtnGuardar.addActionListener(this);
+        VistaTicket.BtnVerImagen.addActionListener(this);
         VistaAvances.BtnCerrar.addActionListener(this);
     }
 
@@ -79,6 +72,10 @@ public class ControladorProblema implements ActionListener {
         AñadirProblema.TxtCorreo.setEditable(false);
         AñadirProblema.TxtTituloSolicitud.setEditable(false);
         AñadirProblema.TxtDetalleSolicitud.setEditable(false);
+        VistaImagen.setTitle("Imagen");
+        VistaImagen.setLocationRelativeTo(null);
+        VistaImagen.setVisible(false);
+        VistaImagen.setResizable(false);
         VistaTicket.setTitle("Soluciones y Avances");
         VistaTicket.setLocationRelativeTo(null);
         VistaTicket.setVisible(false);
@@ -110,28 +107,6 @@ public class ControladorProblema implements ActionListener {
             };
             timer = new Timer(10000, Action);
             timer.setInitialDelay(0);
-            timer.start();
-        });
-    }
-
-    //Timer Correos
-    public void ActualizarEmail() {
-        SwingUtilities.invokeLater(() -> {
-            ActionListener Action = (ActionEvent evt) -> {
-
-                System.out.println("Insertando...");
-                try {
-                    RecEm.RecibirEmail();
-                } catch (javax.mail.MessagingException | IOException | SQLException | com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException ex) {
-                    Logger.getLogger(ControladorRecibirEmail.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            };
-            int Milisegundos = 60000;
-            int Minutos = 30;
-            int Tiempo = Milisegundos * Minutos;
-            int Delay = Tiempo;
-            timer = new Timer(Delay, Action);
-            timer.setInitialDelay(Delay);
             timer.start();
         });
     }
@@ -186,6 +161,11 @@ public class ControladorProblema implements ActionListener {
         //Cierre Botones Añadir Problema
 
         //Botones Ver Problema
+        if (e.getSource() == VistaProblema.BtnActualizarEmail) {
+            Problema.ActualizarEmail();
+            JOptionPane.showMessageDialog(null, "Tabla actualizada, verifique si hay nuevos correos");
+        }
+
         if (e.getSource() == VistaProblema.JMenuVerAv) {
             int SelectedRow = VistaProblema.JTablaProblema.getSelectedRow();
             int NumSelectedRow = VistaProblema.JTablaProblema.getSelectedRowCount();
@@ -249,11 +229,39 @@ public class ControladorProblema implements ActionListener {
                 VistaTicket.JCAreaTicket.setSelectedItem(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 5).toString());
                 VistaTicket.JCEstadoTicket.setSelectedItem(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 6).toString());
                 VistaTicket.TxtSolucion.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 7).toString());
-
+                VistaTicket.TxtRutaImagen.setText(VistaProblema.JTablaProblema.getValueAt(SelectedRow, 8).toString());
                 VistaTicket.TxtIDTicket.setEditable(false);
                 VistaTicket.JCAreaTicket.setEnabled(false);
                 VistaTicket.TxtDescripcion.setEditable(false);
                 VistaTicket.txtTitulo.setEditable(false);
+                VistaTicket.TxtRutaImagen.setEditable(false);
+                VistaTicket.TxtRutaImagen.setVisible(false);
+            } else {
+                VistaTicket.setVisible(false);
+                VistaProblema.setVisible(true);
+                JOptionPane.showMessageDialog(null, "Elije una fila", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }
+            
+            if (VistaTicket.TxtRutaImagen.getText().equals("No Imagen")) {
+                VistaTicket.BtnVerImagen.setVisible(false);
+            } else {
+                VistaTicket.BtnVerImagen.setVisible(true);
+            }
+        }
+
+        if (e.getSource() == VistaTicket.BtnVerImagen) {
+            try {
+                String Ruta = VistaTicket.TxtRutaImagen.getText();
+                /*Process process = Runtime.getRuntime().exec("cmd /c start " + Ruta);
+                BufferedReader BR = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                System.out.println(BR.toString());*/
+                File fichero = new File(Ruta);
+                Desktop DT = Desktop.getDesktop();
+                DT.open(fichero);
+                System.out.println(DT);
+                JOptionPane.showMessageDialog(null, "Imagen generada. Si la imagen no se genera, prueba reiniciar la aplicación");
+            } catch (IOException ex) {
+                Logger.getLogger(ControladorProblema.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 

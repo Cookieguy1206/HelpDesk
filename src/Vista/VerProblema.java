@@ -1,25 +1,16 @@
 package Vista;
 
-import Conexion.Conexion;
-import Modelo.ModeloArea;
-import Modelo.ModeloEstado;
+import Conexion.*;
+import Modelo.*;
 import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
-import java.awt.event.ItemEvent;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
-import javax.swing.JTable;
+import java.awt.event.*;
+import java.sql.*;
+import java.util.logging.*;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 public class VerProblema extends javax.swing.JFrame {
-
+    
     public VerProblema() throws SQLException, MessagingException {
         initComponents();
         String SQL = "SELECT * FROM Filtro";
@@ -147,8 +138,8 @@ public class VerProblema extends javax.swing.JFrame {
 
     //Al escribir en el JTextField se buscará lo deseado
     public void Buscar(String Buscar) throws SQLException {
-        String[] Columnas = {"Tiket", "Correo", "Nombre", "Detalle", "Fecha De Creacion", "Area", "Estado", "Solucion"};
-        String[] Registros = new String[8];
+        String[] Columnas = {"Tiket", "Correo", "Nombre", "Detalle", "Fecha De Creacion", "Area", "Estado", "Solucion", "Imagen"};
+        String[] Registros = new String[9];
 
         DefaultTableModel ModeloTabla = new DefaultTableModel(null, Columnas);
 
@@ -183,6 +174,7 @@ public class VerProblema extends javax.swing.JFrame {
                 Registros[5] = rs.getString("Areaprob");
                 Registros[6] = rs.getString("Estado");
                 Registros[7] = rs.getString("Solucion");
+                Registros[8] = rs.getString("Imagen");
 
                 ModeloTabla.addRow(Registros);
             }
@@ -216,6 +208,9 @@ public class VerProblema extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         JCFiltro = new javax.swing.JComboBox<>();
         JCFiltro2 = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
+        BtnActualizarEmail = new javax.swing.JButton();
+        LblImgVP = new javax.swing.JLabel();
 
         JMenuVer.setText("Ver");
         JPMenuVer.add(JMenuVer);
@@ -293,6 +288,10 @@ public class VerProblema extends javax.swing.JFrame {
             }
         });
 
+        jLabel6.setText("Actualizar tabla");
+
+        BtnActualizarEmail.setText("↺");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -315,37 +314,47 @@ public class VerProblema extends javax.swing.JFrame {
                         .addComponent(BtnRepPen, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(24, 24, 24)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addGap(18, 18, 18)
                                 .addComponent(JCFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(JCFiltro2, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(79, 79, 79))
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(BtnActualizarEmail))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addGap(6, 6, 6)
                                 .addComponent(TxtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(JCBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(28, Short.MAX_VALUE))
+                                .addComponent(JCBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(25, 25, 25)
+                        .addComponent(LblImgVP, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(TxtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(JCBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(JCFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(JCFiltro2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(TxtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(JCBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(JCFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(JCFiltro2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6)
+                            .addComponent(BtnActualizarEmail)))
+                    .addComponent(LblImgVP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(23, 23, 23)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -418,6 +427,7 @@ public class VerProblema extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton BtnActualizarEmail;
     public javax.swing.JButton BtnRepPen;
     public javax.swing.JButton BtnRepProc;
     public javax.swing.JButton BtnRepSol;
@@ -429,12 +439,14 @@ public class VerProblema extends javax.swing.JFrame {
     public javax.swing.JMenuItem JMenuVerAv;
     public javax.swing.JPopupMenu JPMenuVer;
     public javax.swing.JTable JTablaProblema;
+    public javax.swing.JLabel LblImgVP;
     public javax.swing.JTextField TxtBuscar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

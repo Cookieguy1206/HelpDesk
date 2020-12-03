@@ -71,5 +71,6 @@ public class ModeloCorreo {
 
     public void setContenido(String Contenido) {
         this.Contenido = Contenido;
-    }   
+    }
+    
 }

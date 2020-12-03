@@ -137,7 +137,7 @@ CREATE TABLE `persona` (
 
 LOCK TABLES `persona` WRITE;
 /*!40000 ALTER TABLE `persona` DISABLE KEYS */;
-INSERT INTO `persona` VALUES (1,'Cookie 1286 <iiklygamer89@gmail.com>'),(2,'Camilo Hurtado <camilohurtado256@gmail.com>'),(3,'Carolina Lopez <brayangarcialopez254@gmail.com>'),(4,'Camilo Hurtado <camilohurtado256@gmail.com>'),(5,'Cookie 1286 <iiklygamer89@gmail.com>'),(6,'Camilo Hurtado <camilohurtado256@gmail.com>'),(7,'Camilo Hurtado <camilohurtado256@gmail.com>'),(8,'Carolina Lopez <brayangarcialopez254@gmail.com>'),(9,'Cookie 1286 <iiklygamer89@gmail.com>'),(10,'Cookieguy 1206 <camilohurtado982@gmail.com>'),(11,'Camilo Hurtado <camilohurtado256@gmail.com>'),(12,'Cookie 1286 <iiklygamer89@gmail.com>'),(13,'Cookie 1286 <iiklygamer89@gmail.com>');
+INSERT INTO `persona` VALUES (1,'Cookie 1286 <iiklygamer89@gmail.com>'),(2,'Camilo Hurtado <camilohurtado256@gmail.com>'),(3,'SOAC Renovado <soacrenovado@gmail.com>'),(4,'Cookie 1286 <iiklygamer89@gmail.com>'),(5,'Camilo Hurtado <camilohurtado256@gmail.com>'),(6,'Cookieguy 1206 <camilohurtado982@gmail.com>'),(7,'Cookieguy 1206 <camilohurtado982@gmail.com>');
 /*!40000 ALTER TABLE `persona` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -186,6 +186,7 @@ CREATE TABLE `problema` (
   `RefPersona` int NOT NULL DEFAULT '1',
   `RefSolucion` int NOT NULL,
   `RefAvances` int NOT NULL,
+  `Imagen` varchar(700) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`idProblema`),
   KEY `idPrioridad_FK_idx` (`RefIdPrioridad`),
   KEY `idTipoProb_FK_idx` (`RefTipoProb`),
@@ -193,6 +194,7 @@ CREATE TABLE `problema` (
   KEY `idPersona_FK_idx` (`RefPersona`),
   KEY `idSTipoProb_FK_idx` (`RefSTipoProb`),
   KEY `idSSTipoProb_FK_idx` (`RefSSTipoProb`),
+  KEY `idImagen_FK_idx` (`Imagen`),
   CONSTRAINT `idEstado_FK` FOREIGN KEY (`RefEstado`) REFERENCES `estado` (`idEstado`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `idPersona_FK` FOREIGN KEY (`RefPersona`) REFERENCES `persona` (`idPersona`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `idPrioridad_FK` FOREIGN KEY (`RefIdPrioridad`) REFERENCES `prioridad` (`idPrioridad`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -208,7 +210,7 @@ CREATE TABLE `problema` (
 
 LOCK TABLES `problema` WRITE;
 /*!40000 ALTER TABLE `problema` DISABLE KEYS */;
-INSERT INTO `problema` VALUES (2,'Wifi','Necesito acceso al wifi en mi telefono\r\n','2020-11-18 20:55:17',0,0,0,0,0,0,1,2,1),(4,'Impresora','La impresora se atasca y no imprime\r\n','2020-11-18 20:55:18',0,0,0,0,0,0,2,4,1),(6,'Internet','El internet está muy lento y no funciona en mi computador\r\n','2020-11-18 20:55:19',0,0,0,0,0,0,3,6,1),(8,'Teléfono','Mi teléfono recibe llamadas pero no puedo hacerlas\r\n','2020-11-18 20:55:20',0,0,0,0,0,0,4,8,1),(10,'Compartidos','No me deja ingresar a compartidos\r\n','2020-11-18 20:55:21',0,0,0,0,0,0,5,10,1),(12,'Computador','El computador se reinicia cada vez que lo prendo y no deja trabajar\r\n','2020-11-18 20:55:22',0,0,0,0,0,0,6,12,1),(14,'Internet','El internet está demasiado lento\r\n','2020-11-18 20:55:23',0,0,0,0,0,0,7,14,1),(16,'Internet','No tengo señal de internet\r\n','2020-11-18 20:55:24',0,0,0,0,0,0,8,16,1),(18,'ERP','Tengo problemas con el ERP\r\n','2020-11-18 20:55:25',0,0,0,0,0,0,9,18,1),(20,'Impresora','Las hojas se manchan y se atascan\r\n','2020-11-18 20:55:26',0,0,0,0,0,0,10,20,1),(22,'Internet','El internet es muy lento\r\n','2020-11-18 21:13:32',0,0,0,0,0,0,11,22,1),(24,'Compartidos','No puedo acceder a mi carpeta de compartidos\r\n','2020-11-18 21:20:43',0,0,0,0,0,0,12,24,1),(26,'Wifi','Necesito wifi en mi teléfono\r\n','2020-11-18 21:29:06',0,0,0,0,0,0,13,26,1);
+INSERT INTO `problema` VALUES (2,'ERP','Hay problemas con el ERP\r\n','2020-12-02 19:32:11',0,0,0,0,0,0,1,2,1,'No Imagen'),(4,'Problemas con Gmail','Hay problemas con Gmail\r\n','2020-12-02 19:32:13',0,0,0,0,0,0,2,4,1,'C:\\Users\\admon\\Documents\\NetBeansProjects\\CRUD_Escuela\\Ruta\\Screenshot_2020-11-27-12-39-37-716_com.google.android.gm.jpg'),(6,'Prueba sin imagen','Sin imagen\r\n','2020-12-02 19:32:16',0,0,0,0,0,0,3,6,1,'No Imagen'),(8,'Prueba sin imagen','Sin imagen\r\n','2020-12-02 19:32:18',0,0,0,0,0,0,4,8,1,'No Imagen'),(10,'Prueba con imagen','Imagen\r\n','2020-12-02 19:32:19',0,0,0,0,0,0,5,10,1,'C:\\Users\\admon\\Documents\\NetBeansProjects\\CRUD_Escuela\\Ruta\\Screenshot_2020-11-30-12-54-33-907_com.supercell.brawlstars.jpg'),(12,'Prueba sin imagen','Sin imagen\r\n','2020-12-02 19:32:25',0,0,0,0,0,0,6,12,1,'No Imagen'),(14,'Prueba con imagen','Imagen\r\n','2020-12-02 19:32:26',0,0,0,0,0,0,7,14,1,'C:\\Users\\admon\\Documents\\NetBeansProjects\\CRUD_Escuela\\Ruta\\Screenshot_2020-11-28-17-48-49-701_com.android.chrome.jpg');
 /*!40000 ALTER TABLE `problema` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -247,7 +249,7 @@ CREATE TABLE `soluciones` (
 
 LOCK TABLES `soluciones` WRITE;
 /*!40000 ALTER TABLE `soluciones` DISABLE KEYS */;
-INSERT INTO `soluciones` VALUES (2,''),(4,''),(6,''),(8,''),(10,''),(12,''),(14,''),(16,''),(18,''),(20,''),(22,''),(24,''),(26,'');
+INSERT INTO `soluciones` VALUES (2,''),(4,''),(6,''),(8,''),(10,''),(12,''),(14,'');
 /*!40000 ALTER TABLE `soluciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -331,7 +333,8 @@ SET @saved_cs_client     = @@character_set_client;
  1 AS `FechaCreacion`,
  1 AS `AreaProb`,
  1 AS `Estado`,
- 1 AS `Solucion`*/;
+ 1 AS `Solucion`,
+ 1 AS `Imagen`*/;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -421,7 +424,7 @@ UNLOCK TABLES;
 /*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `tablaproblema` AS select `p`.`idProblema` AS `idProblema`,`pe`.`CorreoPersona` AS `CorreoPersona`,`p`.`NombreProb` AS `NombreProb`,`p`.`DetalleProb` AS `DetalleProb`,`p`.`FechaCreacion` AS `FechaCreacion`,`ap`.`AreaProb` AS `AreaProb`,`es`.`Estado` AS `Estado`,`so`.`Solucion` AS `Solucion` from ((((`problema` `p` join `estado` `es` on((`p`.`RefEstado` = `es`.`idEstado`))) join `persona` `pe` on((`p`.`RefPersona` = `pe`.`idPersona`))) join `areaprob` `ap` on((`p`.`RefAreaProb` = `ap`.`idAreaProb`))) join `soluciones` `so` on((`p`.`RefSolucion` = `so`.`idSolucion`))) */;
+/*!50001 VIEW `tablaproblema` AS select `p`.`idProblema` AS `idProblema`,`cr`.`CorreoPersona` AS `CorreoPersona`,`p`.`NombreProb` AS `NombreProb`,`p`.`DetalleProb` AS `DetalleProb`,`p`.`FechaCreacion` AS `FechaCreacion`,`ap`.`AreaProb` AS `AreaProb`,`es`.`Estado` AS `Estado`,`so`.`Solucion` AS `Solucion`,`p`.`Imagen` AS `Imagen` from (((((`problema` `p` join `estado` `es` on((`p`.`RefEstado` = `es`.`idEstado`))) join `persona` `pe` on((`p`.`RefPersona` = `pe`.`idPersona`))) join `areaprob` `ap` on((`p`.`RefAreaProb` = `ap`.`idAreaProb`))) join `soluciones` `so` on((`p`.`RefSolucion` = `so`.`idSolucion`))) join `persona` `cr` on((`p`.`RefPersona` = `cr`.`idPersona`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -435,4 +438,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-19 14:35:29
+-- Dump completed on 2020-12-03 10:25:19

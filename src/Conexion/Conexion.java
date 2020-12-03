@@ -43,6 +43,21 @@ public class Conexion {
         return id;
     }
 
+    public int AutoIncrementI() {
+        int id = 1;
+        try {
+            ps = getConnection().prepareStatement("SELECT MAX(idImagenes) FROM Imagenes");
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                id = rs.getInt(1) + 1;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error" + ex);
+        }
+        return id;
+    }
+
     public int AutoIncrementS() {
         int id = 1;
         try {
@@ -81,6 +96,21 @@ public class Conexion {
 
             while (rs.next()) {
                 id = rs.getInt(1) + 1;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error" + ex);
+        }
+        return id;
+    }
+
+    public int AutoIncrementRI() {
+        int id = 1;
+        try {
+            ps = getConnection().prepareStatement("SELECT MAX(idProblema) FROM Problema");
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                id = rs.getInt(1);
             }
         } catch (SQLException ex) {
             System.out.println("Error" + ex);

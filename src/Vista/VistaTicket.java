@@ -75,6 +75,8 @@ public class VistaTicket extends javax.swing.JFrame {
         BtnGuardar = new javax.swing.JButton();
         JCAreaTicket = new javax.swing.JComboBox<>();
         txtTitulo = new javax.swing.JTextField();
+        BtnVerImagen = new javax.swing.JButton();
+        TxtRutaImagen = new javax.swing.JTextField();
         PanelSolucion = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TxtSolucion = new javax.swing.JTextArea();
@@ -110,50 +112,56 @@ public class VistaTicket extends javax.swing.JFrame {
 
         BtnGuardar.setText("Guardar");
 
+        BtnVerImagen.setText("Ver Imagen");
+
         javax.swing.GroupLayout PanelTicketLayout = new javax.swing.GroupLayout(PanelTicket);
         PanelTicket.setLayout(PanelTicketLayout);
         PanelTicketLayout.setHorizontalGroup(
             PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelTicketLayout.createSequentialGroup()
+                .addGap(90, 90, 90)
                 .addGroup(PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelTicketLayout.createSequentialGroup()
+                        .addGroup(PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtTitulo, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2)
+                            .addGroup(PanelTicketLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(PanelTicketLayout.createSequentialGroup()
+                                        .addGroup(PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel7)
+                                            .addComponent(TxtCorreoTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(103, 103, 103)
+                                        .addGroup(PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel8)
+                                            .addComponent(JCAreaTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(PanelTicketLayout.createSequentialGroup()
+                                        .addComponent(TxtRutaImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(BtnVerImagen)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(BtnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(BtnGuardar)))))
+                        .addGap(79, 79, 79))
                     .addGroup(PanelTicketLayout.createSequentialGroup()
-                        .addGap(209, 209, 209)
+                        .addGap(156, 156, 156)
                         .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(TxtIDTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(PanelTicketLayout.createSequentialGroup()
-                        .addGap(225, 225, 225)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(TxtIDTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelTicketLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelTicketLayout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addGap(278, 278, 278))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelTicketLayout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(JCEstadoTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(255, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelTicketLayout.createSequentialGroup()
-                .addGroup(PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(PanelTicketLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelTicketLayout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(BtnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(BtnGuardar))
-                                .addGroup(PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jScrollPane2)
-                                    .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 613, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelTicketLayout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addGap(238, 238, 238))))
-                    .addGroup(PanelTicketLayout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addGroup(PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(TxtCorreoTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(103, 103, 103)
-                        .addGroup(PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addComponent(JCAreaTicket, 0, 253, Short.MAX_VALUE))))
-                .addGap(79, 79, 79))
+                        .addComponent(JCEstadoTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(193, 193, 193))))
         );
         PanelTicketLayout.setVerticalGroup(
             PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -162,7 +170,7 @@ public class VistaTicket extends javax.swing.JFrame {
                 .addGroup(PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TxtIDTicket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addGap(46, 46, 46)
+                .addGap(29, 29, 29)
                 .addGroup(PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
                     .addComponent(jLabel8))
@@ -173,21 +181,23 @@ public class VistaTicket extends javax.swing.JFrame {
                     .addGroup(PanelTicketLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(JCAreaTicket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(42, 42, 42)
+                .addGap(39, 39, 39)
                 .addGroup(PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(JCEstadoTicket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
-                .addGap(27, 27, 27)
+                .addGap(41, 41, 41)
                 .addComponent(jLabel10)
                 .addGap(18, 18, 18)
                 .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(PanelTicketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnVolver)
-                    .addComponent(BtnGuardar))
-                .addContainerGap(19, Short.MAX_VALUE))
+                    .addComponent(BtnGuardar)
+                    .addComponent(BtnVerImagen)
+                    .addComponent(TxtRutaImagen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Ticket", PanelTicket);
@@ -220,7 +230,7 @@ public class VistaTicket extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(jLabel1)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 718, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         PanelSolucionLayout.setVerticalGroup(
             PanelSolucionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -252,7 +262,7 @@ public class VistaTicket extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
 
         pack();
@@ -274,20 +284,18 @@ public class VistaTicket extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(VistaTicket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    new VistaTicket().setVisible(true);
-                } catch (SQLException ex) {
-                    Logger.getLogger(VistaTicket.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                new VistaTicket().setVisible(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(VistaTicket.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton BtnGuardar;
+    public javax.swing.JButton BtnVerImagen;
     public javax.swing.JButton BtnVolver;
     public javax.swing.JComboBox<String> JCAreaTicket;
     public javax.swing.JComboBox<String> JCEstadoTicket;
@@ -300,6 +308,7 @@ public class VistaTicket extends javax.swing.JFrame {
     public javax.swing.JTextField TxtIDAvance;
     public javax.swing.JTextField TxtIDSolucion;
     public javax.swing.JTextField TxtIDTicket;
+    public javax.swing.JTextField TxtRutaImagen;
     public javax.swing.JTextArea TxtSolucion;
     private javax.swing.JLabel jLabel1;
     public javax.swing.JLabel jLabel10;

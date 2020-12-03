@@ -1,25 +1,7 @@
 CREATE DATABASE HelpDesk;
 
-USE HelpDesk;
-
 INSERT INTO Problema (idProblema, NombreProb, DetalleProb, FechaCreacion, RefIdPrioridad, RefAreaProb, RefTipoProb, RefEstado, RefPersona, RefSolucion, RefAvances) 
 VALUES (1, "Impresora no funciona", "Mi impresora no imprime", CURRENT_TIMESTAMP(), 2, 5, 5, 0, 1, 1, 1);
-
-INSERT INTO Persona (idPersona, CorreoPersona) VALUES (2, "ch@gmail.com");
-
-INSERT INTO TipoProb VALUES (7, "Impresora");
-
-INSERT INTO AreaProb VALUES (7, "Calidad");
-
-INSERT INTO `helpdesk`.`Soluciones` (`Solucion`) VALUES ('');
-
-DELETE FROM `helpdesk`.`Problema` WHERE (`idProblema` = '1');
-DELETE FROM `helpdesk`.`Soluciones` WHERE (`idSolucion` = '1');
-DELETE FROM `helpdesk`.`Avances` WHERE (`idAvances` = '1');
-
-ALTER TABLE `helpdesk`.`problema` DROP COLUMN `RefPersona`;
-
-UPDATE `helpdesk`.`Prioridad` SET `idPrioridad` = '2', `Prioridad` = 'Media' WHERE (`idPrioridad` = '3');
 
 DROP INDEX idPersona_FK_idx ON Problema;
 
@@ -34,6 +16,8 @@ SELECT * FROM STipoProb;
 SELECT * FROM SSTipoProb;
 
 SELECT * FROM Estado;
+
+USE HelpDesk;
 
 SELECT * FROM Problema;
 
@@ -56,7 +40,7 @@ FOR EACH ROW
 INSERT INTO Avances(idAvances, idAvanceProb, Avance, FechaAvance, RefEstado) VALUES (NEW.RefAvances, NEW.idProblema, '', CURRENT_TIMESTAMP(), NEW.RefEstado);
 
 DROP TRIGGER Audit_Prob_Sol;
-DROP TRIGGER Audit_Avances;
+DROP TRIGGER Audit_Img;
 DROP VIEW TablaProblema;
 
 CREATE VIEW TablaProblema AS

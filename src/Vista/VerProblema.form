@@ -63,7 +63,7 @@
           <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -79,16 +79,19 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="JCFiltro" min="-2" pref="180" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="JCFiltro2" min="-2" pref="217" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="BtnActualizarEmail" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                               <Component id="TxtBuscar" min="-2" pref="284" max="-2" attributes="0"/>
@@ -96,30 +99,39 @@
                               <Component id="JCBuscar" min="-2" pref="197" max="-2" attributes="0"/>
                           </Group>
                       </Group>
+                      <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                      <Component id="LblImgVP" min="-2" pref="114" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="28" max="32767" attributes="0"/>
+              <EmptySpace pref="10" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jLabel1" alignment="0" min="-2" pref="25" max="-2" attributes="0"/>
-                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                      <Component id="TxtBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="JCBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jLabel1" alignment="0" min="-2" pref="25" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                              <Component id="TxtBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="JCBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace pref="32" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="JCFiltro" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="JCFiltro2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="BtnActualizarEmail" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
+                  <Component id="LblImgVP" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace pref="26" max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="JCFiltro" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="JCFiltro2" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="294" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -272,6 +284,24 @@
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel6">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Actualizar tabla"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="BtnActualizarEmail">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&#x21ba;"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="LblImgVP">
+      <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
     </Component>

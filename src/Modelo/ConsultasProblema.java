@@ -1,28 +1,14 @@
 package Modelo;
 
-import Conexion.Conexion;
-import Controlador.ControladorProblema;
-import Controlador.ControladorRecibirEmail;
-import Vista.AñadirProblema;
-import Vista.VerProblema;
-import Vista.VistaAvances;
-import Vista.VistaTicket;
+import Conexion.*;
+import Controlador.*;
+import Vista.*;
 import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.*;
+import java.util.logging.*;
 import javax.mail.Message;
 import javax.swing.JTable;
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
@@ -42,6 +28,7 @@ public class ConsultasProblema {
     VistaTicket VistaTicket = new VistaTicket();
     VistaAvances VistaAvances = new VistaAvances();
     ControladorRecibirEmail RecibirEmail = new ControladorRecibirEmail();
+    ModeloCorreo ModeloCorreo = new ModeloCorreo();
     ControladorProblema Problema;
     Conexion con = new Conexion();
     Connection conexion;
@@ -84,10 +71,14 @@ public class ConsultasProblema {
     public void Mostrar(JTable TablaProblema) {
         DefaultTableModel ModeloTabla = new DefaultTableModel();
         TablaProblema.setModel(ModeloTabla);
+        TablaProblema.setRowHeight(20);
+
+        TablaProblema.setDefaultRenderer(Object.class, new RenderTabla());
 
         try {
             ps = conexion.prepareStatement("SELECT * FROM TablaProblema");
             rs = ps.executeQuery();
+            System.out.println(ps);
 
             ModeloTabla.addColumn("Tiket");
             ModeloTabla.addColumn("Correo");
@@ -97,13 +88,14 @@ public class ConsultasProblema {
             ModeloTabla.addColumn("Area");
             ModeloTabla.addColumn("Estado");
             ModeloTabla.addColumn("Solucion");
+            ModeloTabla.addColumn("Imagen");
 
             ResultSetMetaData rsMD = rs.getMetaData();
             int CantidadColumnas = rsMD.getColumnCount();
 
             while (rs.next()) {
                 Object fila[] = new Object[CantidadColumnas];
-
+                
                 for (int i = 0; i < CantidadColumnas; i++) {
                     fila[i] = rs.getObject(i + 1);
                 }
@@ -208,7 +200,7 @@ public class ConsultasProblema {
     //Listar Avances
     public boolean ListarAvances(ModeloAvances ModeloA, VistaTicket VistaTicket, ModeloProblema Modelo) {
         try {
-            int idAvances = con.AutoIncrementA() + 3;
+            int idAvances = con.AutoIncrementA() + 2;
             int idAvancesS = idAvances;
             int idEstado = VistaTicket.JCEstadoTicket.getSelectedIndex();
             ps = conexion.prepareStatement("INSERT INTO Avances (idAvances, Avance, idAvanceProb, FechaAvance, RefEstado) "
@@ -237,6 +229,7 @@ public class ConsultasProblema {
                     + "");
 
             rs = ps.executeQuery();
+            System.out.println(ps);
 
             if (rs.next()) {
                 return rs.getInt(1);
@@ -313,6 +306,17 @@ public class ConsultasProblema {
 
         } catch (JRException ex) {
             System.out.println("Error " + ex);
+        }
+    }
+
+    //Actualizar correos
+    public void ActualizarEmail() {
+        System.out.println("Insertando...");
+        try {
+            RecibirEmail.RecibirEmail();
+            Mostrar(VistaProblema.JTablaProblema);
+        } catch (javax.mail.MessagingException | IOException | SQLException | com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException ex) {
+            Logger.getLogger(ControladorRecibirEmail.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
